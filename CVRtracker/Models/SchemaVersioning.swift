@@ -1,14 +1,43 @@
 import Foundation
 import SwiftData
 
-// Simple schema configuration - all current models
-// For production apps with existing users, implement proper VersionedSchema migration
-
+/// Schema configuration and model container factory for SwiftData persistence.
+///
+/// This struct centralizes SwiftData configuration for the app, including:
+/// - Defining the list of persistent model types
+/// - Creating the ModelContainer with error recovery
+///
+/// ## Migration Strategy
+///
+/// Currently uses a simple schema with automatic lightweight migration.
+/// For production apps with existing users, implement proper `VersionedSchema`
+/// migration to preserve user data during schema changes.
+///
+/// ## Error Recovery
+///
+/// If the database cannot be opened (e.g., due to schema incompatibility),
+/// the container factory will attempt to delete and recreate the database.
+/// This is acceptable during development but should be replaced with proper
+/// migration handling before production release.
 struct CVRtrackerSchema {
+    /// All persistent model types managed by SwiftData.
+    ///
+    /// Add new @Model classes here when extending the data model.
     static var models: [any PersistentModel.Type] {
         [BPReading.self, UserProfile.self, LipidReading.self]
     }
 
+    /// Creates and configures the ModelContainer for the app.
+    ///
+    /// Attempts to create a persistent store with the current schema.
+    /// If creation fails (e.g., due to schema changes), falls back to
+    /// deleting the existing store and creating a fresh database.
+    ///
+    /// - Returns: A configured ModelContainer ready for use
+    /// - Throws: If the container cannot be created even after reset
+    ///
+    /// - Warning: The fallback behavior deletes all existing data.
+    ///   Implement proper migration before production release.
     static func createContainer() throws -> ModelContainer {
         let schema = Schema(models)
         let config = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)

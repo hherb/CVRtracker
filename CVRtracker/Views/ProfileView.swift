@@ -53,14 +53,23 @@ struct ProfileView: View {
                 }
 
                 Section {
-                    Toggle("On blood pressure medication", isOn: $onHypertensionTreatment)
-                        .onChange(of: onHypertensionTreatment) { saveProfile() }
+                    HStack {
+                        Toggle("On blood pressure medication", isOn: $onHypertensionTreatment)
+                            .onChange(of: onHypertensionTreatment) { saveProfile() }
+                        InfoButton(topic: HelpContent.hypertensionTreatment)
+                    }
 
-                    Toggle("Current smoker", isOn: $isSmoker)
-                        .onChange(of: isSmoker) { saveProfile() }
+                    HStack {
+                        Toggle("Current smoker", isOn: $isSmoker)
+                            .onChange(of: isSmoker) { saveProfile() }
+                        InfoButton(topic: HelpContent.smokingStatus)
+                    }
 
-                    Toggle("Diabetes", isOn: $hasDiabetes)
-                        .onChange(of: hasDiabetes) { saveProfile() }
+                    HStack {
+                        Toggle("Diabetes", isOn: $hasDiabetes)
+                            .onChange(of: hasDiabetes) { saveProfile() }
+                        InfoButton(topic: HelpContent.diabetesStatus)
+                    }
                 } header: {
                     Text("Risk Factors")
                 }
@@ -88,7 +97,7 @@ struct ProfileView: View {
                 if let lipid = latestLipidReading {
                     Section {
                         HStack {
-                            Text("Total Cholesterol")
+                            LabelWithInfo(text: "Total Cholesterol", topic: HelpContent.totalCholesterol)
                             Spacer()
                             Text(String(format: "%.0f %@",
                                          lipid.displayTotalCholesterol(unit: cholesterolUnit),
@@ -96,7 +105,7 @@ struct ProfileView: View {
                                 .foregroundColor(.secondary)
                         }
                         HStack {
-                            Text("HDL Cholesterol")
+                            LabelWithInfo(text: "HDL Cholesterol", topic: HelpContent.hdlCholesterol)
                             Spacer()
                             Text(String(format: "%.0f %@",
                                          lipid.displayHDLCholesterol(unit: cholesterolUnit),
@@ -105,7 +114,7 @@ struct ProfileView: View {
                         }
                         if let ldl = lipid.displayLDLCholesterol(unit: cholesterolUnit) {
                             HStack {
-                                Text("LDL Cholesterol")
+                                LabelWithInfo(text: "LDL Cholesterol", topic: HelpContent.ldlCholesterol)
                                 Spacer()
                                 Text(String(format: "%.0f %@", ldl, cholesterolUnit.rawValue))
                                     .foregroundColor(.secondary)

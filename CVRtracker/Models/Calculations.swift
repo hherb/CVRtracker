@@ -1,14 +1,31 @@
 import Foundation
 
+/// Result of a cardiovascular risk calculation.
+///
+/// Contains both the raw risk percentage and a categorical interpretation
+/// to help users understand their risk level.
 struct CVRiskResult {
+    /// The calculated risk as a percentage (0-100)
     let riskPercent: Double
+
+    /// The categorical interpretation of the risk percentage
     let category: RiskCategory
 
+    /// Risk categories for cardiovascular disease.
+    ///
+    /// Categories are based on standard clinical thresholds used
+    /// in cardiovascular risk assessment guidelines.
     enum RiskCategory: String {
+        /// Low risk: < 10% (10-year) or < 12% (30-year)
         case low = "Low"
+
+        /// Intermediate risk: 10-20% (10-year) or 12-40% (30-year)
         case intermediate = "Intermediate"
+
+        /// High risk: > 20% (10-year) or > 40% (30-year)
         case high = "High"
 
+        /// Human-readable description with actionable guidance
         var description: String {
             switch self {
             case .low: return "Lower than average risk"
@@ -19,6 +36,15 @@ struct CVRiskResult {
     }
 }
 
+/// Cardiovascular risk calculation utilities.
+///
+/// Provides static methods for calculating:
+/// - Fractional Pulse Pressure (fPP) as a marker of arterial stiffness
+/// - 10-year cardiovascular risk using the Framingham Risk Score
+/// - 30-year cardiovascular risk using extended Framingham functions
+///
+/// All calculations are based on peer-reviewed research and validated
+/// risk prediction models from the Framingham Heart Study.
 struct Calculations {
 
     // MARK: - Fractional Pulse Pressure
@@ -37,8 +63,25 @@ struct Calculations {
 
     // MARK: - Framingham 10-Year CVD Risk
 
-    /// Calculate 10-year cardiovascular disease risk using Framingham Risk Score
-    /// Based on D'Agostino et al. (2008) General cardiovascular risk profile
+    /// Calculates 10-year cardiovascular disease risk using the Framingham Risk Score.
+    ///
+    /// Based on the General Cardiovascular Risk Profile from D'Agostino et al. (2008),
+    /// published in Circulation. Uses log-transformed risk factors with sex-specific
+    /// coefficients derived from the Framingham Heart Study cohort.
+    ///
+    /// The calculation uses Cox proportional hazards regression with the following variables:
+    /// - Age (log-transformed)
+    /// - Total cholesterol (log-transformed)
+    /// - HDL cholesterol (log-transformed, protective)
+    /// - Systolic blood pressure (log-transformed, with treatment modifier)
+    /// - Current smoking status (binary)
+    /// - Diabetes status (binary)
+    ///
+    /// - Parameters:
+    ///   - profile: User profile containing demographic and health information
+    ///   - systolicBP: Current systolic blood pressure in mmHg
+    /// - Returns: CVRiskResult containing risk percentage and category
+    /// - Note: Valid for ages 30-79. Results outside this range should be interpreted with caution.
     static func calculateFramingham10Year(profile: UserProfile, systolicBP: Int) -> CVRiskResult {
         let age = Double(profile.age)
         let totalChol = profile.totalCholesterol
@@ -90,6 +133,15 @@ struct Calculations {
         }
     }
 
+    /// Categorizes 10-year risk percentage into clinical risk categories.
+    ///
+    /// Thresholds based on ATP III guidelines:
+    /// - Low: < 10%
+    /// - Intermediate: 10-20%
+    /// - High: ≥ 20%
+    ///
+    /// - Parameter risk: The calculated 10-year risk percentage
+    /// - Returns: The appropriate risk category
     private static func categorize10Year(_ risk: Double) -> CVRiskResult.RiskCategory {
         if risk < 10 {
             return .low
@@ -102,8 +154,24 @@ struct Calculations {
 
     // MARK: - Framingham 30-Year CVD Risk
 
-    /// Calculate 30-year cardiovascular disease risk
-    /// Based on Pencina et al. (2009) extended Framingham risk functions
+    /// Calculates 30-year cardiovascular disease risk using extended Framingham functions.
+    ///
+    /// Based on Pencina et al. (2009) "Predicting the 30-Year Risk of Cardiovascular Disease",
+    /// published in Circulation. This extended model is particularly useful for younger adults
+    /// (30-59 years) who may have low short-term but significant long-term risk.
+    ///
+    /// Uses a simplified point-based scoring system with categorical risk factor levels:
+    /// - Age: Linear increase from age 20
+    /// - Total cholesterol: Categories at 200 and 240 mg/dL
+    /// - HDL cholesterol: Categories at 40 and 50 mg/dL
+    /// - Systolic BP: Categories at 120, 140, and 160 mmHg
+    /// - Treatment status, smoking, and diabetes as binary factors
+    ///
+    /// - Parameters:
+    ///   - profile: User profile containing demographic and health information
+    ///   - systolicBP: Current systolic blood pressure in mmHg
+    /// - Returns: CVRiskResult containing risk percentage and category
+    /// - Note: Best suited for adults aged 20-59. Older adults should primarily use 10-year risk.
     static func calculateFramingham30Year(profile: UserProfile, systolicBP: Int) -> CVRiskResult {
         let age = Double(profile.age)
         let totalChol = profile.totalCholesterol
@@ -147,6 +215,15 @@ struct Calculations {
         }
     }
 
+    /// Categorizes 30-year risk percentage into clinical risk categories.
+    ///
+    /// Uses different thresholds than 10-year risk due to longer time horizon:
+    /// - Low: < 12%
+    /// - Intermediate: 12-40%
+    /// - High: ≥ 40%
+    ///
+    /// - Parameter risk: The calculated 30-year risk percentage
+    /// - Returns: The appropriate risk category
     private static func categorize30Year(_ risk: Double) -> CVRiskResult.RiskCategory {
         if risk < 12 {
             return .low

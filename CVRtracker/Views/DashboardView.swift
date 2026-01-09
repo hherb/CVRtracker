@@ -64,9 +64,12 @@ struct DashboardView: View {
 
     private var currentFPPCard: some View {
         VStack(spacing: 8) {
-            Text("Fractional Pulse Pressure")
-                .font(.headline)
-                .foregroundColor(.secondary)
+            HStack(spacing: 6) {
+                Text("Fractional Pulse Pressure")
+                    .font(.headline)
+                    .foregroundColor(.secondary)
+                InfoButton(topic: HelpContent.fractionalPulsePressure)
+            }
 
             if let reading = latestReading {
                 Text(String(format: "%.3f", reading.fractionalPulsePressure))
@@ -143,13 +146,16 @@ struct DashboardView: View {
         let risk30 = Calculations.calculateFramingham30Year(profile: calculationProfile, systolicBP: systolic)
 
         return VStack(spacing: 16) {
-            Text("Cardiovascular Risk")
-                .font(.headline)
+            HStack(spacing: 6) {
+                Text("Cardiovascular Risk")
+                    .font(.headline)
+                InfoButton(topic: HelpContent.framinghamRiskScore)
+            }
 
             HStack(spacing: 20) {
-                riskScoreItem(title: "10-Year", risk: risk10)
+                riskScoreItem(title: "10-Year", risk: risk10, topic: HelpContent.framinghamRiskScore)
                 Divider()
-                riskScoreItem(title: "30-Year", risk: risk30)
+                riskScoreItem(title: "30-Year", risk: risk30, topic: HelpContent.thirtyYearRisk)
             }
         }
         .padding()
@@ -158,11 +164,14 @@ struct DashboardView: View {
         .shadow(color: .black.opacity(0.05), radius: 10)
     }
 
-    private func riskScoreItem(title: String, risk: CVRiskResult) -> some View {
+    private func riskScoreItem(title: String, risk: CVRiskResult, topic: HelpTopic) -> some View {
         VStack(spacing: 4) {
-            Text(title)
-                .font(.caption)
-                .foregroundColor(.secondary)
+            HStack(spacing: 4) {
+                Text(title)
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                InfoButton(topic: topic)
+            }
 
             Text(String(format: "%.1f%%", risk.riskPercent))
                 .font(.title2)

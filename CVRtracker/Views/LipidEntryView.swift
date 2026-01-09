@@ -60,7 +60,7 @@ struct LipidEntryView: View {
 
                 Section {
                     HStack {
-                        Text("Total Cholesterol")
+                        LabelWithInfo(text: "Total Cholesterol", topic: HelpContent.totalCholesterol)
                         Spacer()
                         TextField("", text: $totalCholesterolText)
                             .keyboardType(.decimalPad)
@@ -71,7 +71,7 @@ struct LipidEntryView: View {
                     }
 
                     HStack {
-                        Text("HDL Cholesterol")
+                        LabelWithInfo(text: "HDL Cholesterol", topic: HelpContent.hdlCholesterol)
                         Spacer()
                         TextField("", text: $hdlCholesterolText)
                             .keyboardType(.decimalPad)
@@ -85,7 +85,10 @@ struct LipidEntryView: View {
                 }
 
                 Section {
-                    Toggle("LDL measured directly", isOn: $hasLDL)
+                    HStack {
+                        Toggle("LDL measured directly", isOn: $hasLDL)
+                        InfoButton(topic: HelpContent.ldlCholesterol)
+                    }
 
                     if hasLDL {
                         HStack {
@@ -100,7 +103,10 @@ struct LipidEntryView: View {
                         }
                     }
 
-                    Toggle("Triglycerides measured", isOn: $hasTriglycerides)
+                    HStack {
+                        Toggle("Triglycerides measured", isOn: $hasTriglycerides)
+                        InfoButton(topic: HelpContent.triglycerides)
+                    }
 
                     if hasTriglycerides {
                         HStack {

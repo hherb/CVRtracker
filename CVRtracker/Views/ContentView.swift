@@ -27,6 +27,11 @@ struct ContentView: View {
                 .tabItem {
                     Label("Profile", systemImage: "person.fill")
                 }
+
+            TutorialView()
+                .tabItem {
+                    Label("Learn", systemImage: "book.fill")
+                }
         }
         .tint(.red)
     }

@@ -69,7 +69,10 @@ struct BPEntryView: View {
                 }
                 .padding(.vertical, 8)
             } header: {
-                Text("Blood Pressure")
+                HStack(spacing: 6) {
+                    Text("Blood Pressure")
+                    InfoButton(topic: HelpContent.systolicBP)
+                }
             }
 
             Section {
@@ -78,13 +81,13 @@ struct BPEntryView: View {
 
             Section {
                 HStack {
-                    Text("Pulse Pressure")
+                    LabelWithInfo(text: "Pulse Pressure", topic: HelpContent.pulsePressure)
                     Spacer()
                     Text("\(pulsePressure) mmHg")
                         .foregroundColor(.secondary)
                 }
                 HStack {
-                    Text("fPP")
+                    LabelWithInfo(text: "fPP", topic: HelpContent.fractionalPulsePressure)
                     Spacer()
                     Text(String(format: "%.3f", calculatedFPP))
                         .fontWeight(.bold)
