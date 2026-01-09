@@ -22,7 +22,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		B80000201234567800000010 /* CVRtracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CVRtracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B80000011234567800000001 /* CVRtrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CVRtrackerApp.swift; sourceTree = "<group>"; };
 		B80000031234567800000002 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B80000051234567800000003 /* BPReading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPReading.swift; sourceTree = "<group>"; };
@@ -35,6 +34,7 @@
 		B8000013123456780000000A /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		B8000015123456780000000B /* RiskResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RiskResultView.swift; sourceTree = "<group>"; };
 		B8000017123456780000000C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B80000201234567800000010 /* CVRtracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CVRtracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,14 +56,6 @@
 			);
 			sourceTree = "<group>";
 		};
-		B80000421234567800000032 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				B80000201234567800000010 /* CVRtracker.app */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		B80000411234567800000031 /* CVRtracker */ = {
 			isa = PBXGroup;
 			children = (
@@ -73,6 +65,14 @@
 				B8000017123456780000000C /* Assets.xcassets */,
 			);
 			path = CVRtracker;
+			sourceTree = "<group>";
+		};
+		B80000421234567800000032 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B80000201234567800000010 /* CVRtracker.app */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		B80000431234567800000033 /* Models */ = {
@@ -127,7 +127,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1500;
-				LastUpgradeCheck = 1500;
+				LastUpgradeCheck = 2610;
 				TargetAttributes = {
 					B80000501234567800000040 = {
 						CreatedOnToolsVersion = 15.0;
@@ -220,6 +220,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = X5DWXB4283;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -243,6 +244,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -283,6 +285,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = X5DWXB4283;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -299,6 +302,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -325,7 +329,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.yourname.CVRtracker;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hherb.CVRtracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -354,7 +358,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.yourname.CVRtracker;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hherb.CVRtracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -365,20 +369,20 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		B80000711234567800000061 /* Build configuration list for PBXProject "CVRtracker" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				B80000801234567800000070 /* Debug */,
-				B80000811234567800000071 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		B80000601234567800000050 /* Build configuration list for PBXNativeTarget "CVRtracker" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B80000821234567800000072 /* Debug */,
 				B80000831234567800000073 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B80000711234567800000061 /* Build configuration list for PBXProject "CVRtracker" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B80000801234567800000070 /* Debug */,
+				B80000811234567800000071 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
