@@ -5,14 +5,15 @@ struct ProfileView: View {
     @Environment(\.modelContext) private var modelContext
     @Query private var profiles: [UserProfile]
     @Query(sort: \BPReading.timestamp, order: .reverse) private var readings: [BPReading]
+    @Query(sort: \LipidReading.timestamp, order: .reverse) private var lipidReadings: [LipidReading]
 
     @State private var age: Int = 50
     @State private var sex: Sex = .male
-    @State private var totalCholesterol: Double = 200
-    @State private var hdlCholesterol: Double = 50
     @State private var onHypertensionTreatment: Bool = false
     @State private var isSmoker: Bool = false
     @State private var hasDiabetes: Bool = false
+    @State private var cholesterolUnit: CholesterolUnit = .mgdL
+    @State private var triglycerideUnit: TriglycerideUnit = .mgdL
 
     @State private var showingRiskResult = false
 
@@ -24,8 +25,12 @@ struct ProfileView: View {
         readings.first
     }
 
+    private var latestLipidReading: LipidReading? {
+        lipidReadings.first
+    }
+
     private var canCalculateRisk: Bool {
-        age >= 30 && age <= 79 && totalCholesterol > 0 && hdlCholesterol > 0 && latestReading != nil
+        age >= 30 && age <= 79 && latestLipidReading != nil && latestReading != nil
     }
 
     var body: some View {
@@ -48,36 +53,6 @@ struct ProfileView: View {
                 }
 
                 Section {
-                    HStack {
-                        Text("Total Cholesterol")
-                        Spacer()
-                        TextField("mg/dL", value: $totalCholesterol, format: .number)
-                            .keyboardType(.decimalPad)
-                            .multilineTextAlignment(.trailing)
-                            .frame(width: 80)
-                            .onChange(of: totalCholesterol) { saveProfile() }
-                        Text("mg/dL")
-                            .foregroundColor(.secondary)
-                    }
-
-                    HStack {
-                        Text("HDL Cholesterol")
-                        Spacer()
-                        TextField("mg/dL", value: $hdlCholesterol, format: .number)
-                            .keyboardType(.decimalPad)
-                            .multilineTextAlignment(.trailing)
-                            .frame(width: 80)
-                            .onChange(of: hdlCholesterol) { saveProfile() }
-                        Text("mg/dL")
-                            .foregroundColor(.secondary)
-                    }
-                } header: {
-                    Text("Cholesterol")
-                } footer: {
-                    Text("Enter your most recent lab values. Higher HDL (\"good\" cholesterol) is protective.")
-                }
-
-                Section {
                     Toggle("On blood pressure medication", isOn: $onHypertensionTreatment)
                         .onChange(of: onHypertensionTreatment) { saveProfile() }
 
@@ -88,6 +63,65 @@ struct ProfileView: View {
                         .onChange(of: hasDiabetes) { saveProfile() }
                 } header: {
                     Text("Risk Factors")
+                }
+
+                Section {
+                    Picker("Cholesterol Units", selection: $cholesterolUnit) {
+                        ForEach(CholesterolUnit.allCases, id: \.self) { unit in
+                            Text(unit.rawValue).tag(unit)
+                        }
+                    }
+                    .onChange(of: cholesterolUnit) { saveProfile() }
+
+                    Picker("Triglyceride Units", selection: $triglycerideUnit) {
+                        ForEach(TriglycerideUnit.allCases, id: \.self) { unit in
+                            Text(unit.rawValue).tag(unit)
+                        }
+                    }
+                    .onChange(of: triglycerideUnit) { saveProfile() }
+                } header: {
+                    Text("Unit Preferences")
+                } footer: {
+                    Text("Choose your preferred units for lipid values. Values are converted automatically.")
+                }
+
+                if let lipid = latestLipidReading {
+                    Section {
+                        HStack {
+                            Text("Total Cholesterol")
+                            Spacer()
+                            Text(String(format: "%.0f %@",
+                                         lipid.displayTotalCholesterol(unit: cholesterolUnit),
+                                         cholesterolUnit.rawValue))
+                                .foregroundColor(.secondary)
+                        }
+                        HStack {
+                            Text("HDL Cholesterol")
+                            Spacer()
+                            Text(String(format: "%.0f %@",
+                                         lipid.displayHDLCholesterol(unit: cholesterolUnit),
+                                         cholesterolUnit.rawValue))
+                                .foregroundColor(.secondary)
+                        }
+                        if let ldl = lipid.displayLDLCholesterol(unit: cholesterolUnit) {
+                            HStack {
+                                Text("LDL Cholesterol")
+                                Spacer()
+                                Text(String(format: "%.0f %@", ldl, cholesterolUnit.rawValue))
+                                    .foregroundColor(.secondary)
+                            }
+                        }
+                        HStack {
+                            Text("Last Updated")
+                            Spacer()
+                            Text(lipid.timestamp, style: .date)
+                                .foregroundColor(.secondary)
+                        }
+                    } header: {
+                        Text("Latest Lipid Values")
+                    } footer: {
+                        Text("Lipid values are tracked in the Lipids tab. The latest reading is used for risk calculations.")
+                    }
                 }
 
                 Section {
@@ -105,6 +139,8 @@ struct ProfileView: View {
                 } footer: {
                     if latestReading == nil {
                         Text("Add a blood pressure reading first to calculate your risk.")
+                    } else if latestLipidReading == nil {
+                        Text("Add a lipid reading first to calculate your risk.")
                     } else if !canCalculateRisk {
                         Text("Please complete all required fields.")
                     }
@@ -115,9 +151,9 @@ struct ProfileView: View {
                 loadProfile()
             }
             .sheet(isPresented: $showingRiskResult) {
-                if let reading = latestReading {
+                if let reading = latestReading, let lipid = latestLipidReading {
                     RiskResultView(
-                        profile: createCurrentProfile(),
+                        profile: createCurrentProfile(lipid: lipid),
                         systolicBP: reading.systolic
                     )
                 }
@@ -129,11 +165,11 @@ struct ProfileView: View {
         if let existing = profile {
             age = existing.age
             sex = existing.sex
-            totalCholesterol = existing.totalCholesterol
-            hdlCholesterol = existing.hdlCholesterol
             onHypertensionTreatment = existing.onHypertensionTreatment
             isSmoker = existing.isSmoker
             hasDiabetes = existing.hasDiabetes
+            cholesterolUnit = existing.cholesterolUnit
+            triglycerideUnit = existing.triglycerideUnit
         }
     }
 
@@ -141,39 +177,43 @@ struct ProfileView: View {
         if let existing = profile {
             existing.age = age
             existing.sex = sex
-            existing.totalCholesterol = totalCholesterol
-            existing.hdlCholesterol = hdlCholesterol
             existing.onHypertensionTreatment = onHypertensionTreatment
             existing.isSmoker = isSmoker
             existing.hasDiabetes = hasDiabetes
+            existing.cholesterolUnit = cholesterolUnit
+            existing.triglycerideUnit = triglycerideUnit
         } else {
             let newProfile = UserProfile(
                 age: age,
                 sex: sex,
-                totalCholesterol: totalCholesterol,
-                hdlCholesterol: hdlCholesterol,
+                totalCholesterol: 0,
+                hdlCholesterol: 0,
                 onHypertensionTreatment: onHypertensionTreatment,
                 isSmoker: isSmoker,
-                hasDiabetes: hasDiabetes
+                hasDiabetes: hasDiabetes,
+                cholesterolUnit: cholesterolUnit,
+                triglycerideUnit: triglycerideUnit
             )
             modelContext.insert(newProfile)
         }
     }
 
-    private func createCurrentProfile() -> UserProfile {
+    private func createCurrentProfile(lipid: LipidReading) -> UserProfile {
         UserProfile(
             age: age,
             sex: sex,
-            totalCholesterol: totalCholesterol,
-            hdlCholesterol: hdlCholesterol,
+            totalCholesterol: lipid.totalCholesterol,
+            hdlCholesterol: lipid.hdlCholesterol,
             onHypertensionTreatment: onHypertensionTreatment,
             isSmoker: isSmoker,
-            hasDiabetes: hasDiabetes
+            hasDiabetes: hasDiabetes,
+            cholesterolUnit: cholesterolUnit,
+            triglycerideUnit: triglycerideUnit
         )
     }
 }
 
 #Preview {
     ProfileView()
-        .modelContainer(for: [UserProfile.self, BPReading.self], inMemory: true)
+        .modelContainer(for: [UserProfile.self, BPReading.self, LipidReading.self], inMemory: true)
 }

@@ -7,6 +7,7 @@ struct CVRtrackerApp: App {
         let schema = Schema([
             BPReading.self,
             UserProfile.self,
+            LipidReading.self,
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 

@@ -15,7 +15,12 @@ struct ContentView: View {
 
             HistoryView()
                 .tabItem {
-                    Label("History", systemImage: "list.bullet")
+                    Label("BP History", systemImage: "list.bullet")
+                }
+
+            LipidHistoryView()
+                .tabItem {
+                    Label("Lipids", systemImage: "drop.fill")
                 }
 
             ProfileView()
@@ -29,5 +34,5 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
-        .modelContainer(for: [BPReading.self, UserProfile.self], inMemory: true)
+        .modelContainer(for: [BPReading.self, UserProfile.self, LipidReading.self], inMemory: true)
 }

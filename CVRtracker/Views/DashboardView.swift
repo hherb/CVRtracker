@@ -5,6 +5,7 @@ import Charts
 struct DashboardView: View {
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \BPReading.timestamp, order: .reverse) private var readings: [BPReading]
+    @Query(sort: \LipidReading.timestamp, order: .reverse) private var lipidReadings: [LipidReading]
     @Query private var profiles: [UserProfile]
 
     private var profile: UserProfile? {
@@ -15,8 +16,19 @@ struct DashboardView: View {
         readings.first
     }
 
+    private var latestLipidReading: LipidReading? {
+        lipidReadings.first
+    }
+
     private var recentReadings: [BPReading] {
         Array(readings.prefix(7)).reversed()
+    }
+
+    private var canShowRisk: Bool {
+        guard let profile = profile else { return false }
+        return profile.age >= 30 && profile.age <= 79 &&
+               latestLipidReading != nil &&
+               latestReading != nil
     }
 
     var body: some View {
@@ -32,8 +44,8 @@ struct DashboardView: View {
                     }
 
                     // Risk Scores
-                    if let profile = profile, profile.isComplete, let reading = latestReading {
-                        riskScoresCard(profile: profile, systolic: reading.systolic)
+                    if canShowRisk, let profile = profile, let reading = latestReading, let lipid = latestLipidReading {
+                        riskScoresCard(profile: profile, lipid: lipid, systolic: reading.systolic)
                     } else {
                         setupPromptCard
                     }
@@ -116,9 +128,19 @@ struct DashboardView: View {
         .shadow(color: .black.opacity(0.05), radius: 10)
     }
 
-    private func riskScoresCard(profile: UserProfile, systolic: Int) -> some View {
-        let risk10 = Calculations.calculateFramingham10Year(profile: profile, systolicBP: systolic)
-        let risk30 = Calculations.calculateFramingham30Year(profile: profile, systolicBP: systolic)
+    private func riskScoresCard(profile: UserProfile, lipid: LipidReading, systolic: Int) -> some View {
+        // Create a profile with lipid values for calculation
+        let calculationProfile = UserProfile(
+            age: profile.age,
+            sex: profile.sex,
+            totalCholesterol: lipid.totalCholesterol,
+            hdlCholesterol: lipid.hdlCholesterol,
+            onHypertensionTreatment: profile.onHypertensionTreatment,
+            isSmoker: profile.isSmoker,
+            hasDiabetes: profile.hasDiabetes
+        )
+        let risk10 = Calculations.calculateFramingham10Year(profile: calculationProfile, systolicBP: systolic)
+        let risk30 = Calculations.calculateFramingham30Year(profile: calculationProfile, systolicBP: systolic)
 
         return VStack(spacing: 16) {
             Text("Cardiovascular Risk")
@@ -163,7 +185,7 @@ struct DashboardView: View {
             Text("Complete Your Profile")
                 .font(.headline)
 
-            Text("Add your health information in the Profile tab to see your cardiovascular risk scores.")
+            Text("Add your health information in the Profile tab and lipid readings to see your cardiovascular risk scores.")
                 .font(.caption)
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)
@@ -245,5 +267,5 @@ struct DashboardView: View {
 
 #Preview {
     DashboardView()
-        .modelContainer(for: [BPReading.self, UserProfile.self], inMemory: true)
+        .modelContainer(for: [BPReading.self, UserProfile.self, LipidReading.self], inMemory: true)
 }
