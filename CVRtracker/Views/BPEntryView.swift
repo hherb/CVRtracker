@@ -7,8 +7,15 @@ struct BPEntryView: View {
 
     @State private var systolic: Int = 120
     @State private var diastolic: Int = 80
+    @State private var systolicText: String = "120"
+    @State private var diastolicText: String = "80"
     @State private var timestamp: Date = Date()
     @State private var showingSavedAlert = false
+    @FocusState private var focusedField: Field?
+
+    enum Field {
+        case systolic, diastolic
+    }
 
     private var calculatedFPP: Double {
         Calculations.calculateFPP(systolic: systolic, diastolic: diastolic)
@@ -23,114 +30,111 @@ struct BPEntryView: View {
     }
 
     var body: some View {
-        NavigationStack {
-            Form {
-                Section {
-                    VStack(spacing: 16) {
-                        // Systolic Input
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text("Systolic (top number)")
-                                .font(.subheadline)
-                                .foregroundColor(.secondary)
-
-                            HStack {
-                                Stepper(value: $systolic, in: 70...250, step: 1) {
-                                    Text("\(systolic)")
-                                        .font(.system(size: 32, weight: .bold, design: .rounded))
-                                        .foregroundColor(.primary)
-                                }
-
-                                Text("mmHg")
-                                    .foregroundColor(.secondary)
+        Form {
+            Section {
+                HStack(spacing: 4) {
+                    Spacer()
+                    TextField("120", text: $systolicText)
+                        .keyboardType(.numberPad)
+                        .multilineTextAlignment(.trailing)
+                        .font(.system(size: 40, weight: .bold, design: .rounded))
+                        .frame(width: 90)
+                        .focused($focusedField, equals: .systolic)
+                        .onChange(of: systolicText) { _, newValue in
+                            if let value = Int(newValue), value >= 0, value <= 999 {
+                                systolic = value
                             }
                         }
 
-                        Divider()
+                    Text("/")
+                        .font(.system(size: 40, weight: .bold, design: .rounded))
+                        .foregroundColor(.secondary)
 
-                        // Diastolic Input
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text("Diastolic (bottom number)")
-                                .font(.subheadline)
-                                .foregroundColor(.secondary)
-
-                            HStack {
-                                Stepper(value: $diastolic, in: 40...150, step: 1) {
-                                    Text("\(diastolic)")
-                                        .font(.system(size: 32, weight: .bold, design: .rounded))
-                                        .foregroundColor(.primary)
-                                }
-
-                                Text("mmHg")
-                                    .foregroundColor(.secondary)
+                    TextField("80", text: $diastolicText)
+                        .keyboardType(.numberPad)
+                        .multilineTextAlignment(.leading)
+                        .font(.system(size: 40, weight: .bold, design: .rounded))
+                        .frame(width: 90)
+                        .focused($focusedField, equals: .diastolic)
+                        .onChange(of: diastolicText) { _, newValue in
+                            if let value = Int(newValue), value >= 0, value <= 999 {
+                                diastolic = value
                             }
                         }
-                    }
-                    .padding(.vertical, 8)
-                } header: {
-                    Text("Blood Pressure")
+
+                    Text("mmHg")
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                    Spacer()
                 }
+                .padding(.vertical, 8)
+            } header: {
+                Text("Blood Pressure")
+            }
 
-                Section {
-                    DatePicker("Date & Time", selection: $timestamp, displayedComponents: [.date, .hourAndMinute])
-                } header: {
-                    Text("When")
+            Section {
+                DatePicker("Date & Time", selection: $timestamp, displayedComponents: [.date, .hourAndMinute])
+            }
+
+            Section {
+                HStack {
+                    Text("Pulse Pressure")
+                    Spacer()
+                    Text("\(pulsePressure) mmHg")
+                        .foregroundColor(.secondary)
                 }
-
-                Section {
-                    HStack {
-                        Text("Pulse Pressure")
-                        Spacer()
-                        Text("\(pulsePressure) mmHg")
-                            .fontWeight(.semibold)
-                    }
-
-                    HStack {
-                        Text("Fractional Pulse Pressure")
-                        Spacer()
-                        Text(String(format: "%.3f", calculatedFPP))
-                            .fontWeight(.bold)
-                            .foregroundColor(colorForFPP(calculatedFPP))
-                    }
-
-                    HStack {
-                        Text("Category")
-                        Spacer()
-                        Text(categoryForFPP(calculatedFPP))
-                            .fontWeight(.semibold)
-                            .foregroundColor(colorForFPP(calculatedFPP))
-                    }
-                } header: {
-                    Text("Calculated Values")
-                } footer: {
-                    Text("Lower fPP values indicate better vascular health. Normal is below 0.40.")
+                HStack {
+                    Text("fPP")
+                    Spacer()
+                    Text(String(format: "%.3f", calculatedFPP))
+                        .fontWeight(.bold)
+                        .foregroundColor(colorForFPP(calculatedFPP))
+                    Text("(\(categoryForFPP(calculatedFPP)))")
+                        .foregroundColor(colorForFPP(calculatedFPP))
                 }
+            } footer: {
+                Text("fPP < 0.40 is normal")
+            }
 
-                Section {
-                    Button(action: saveReading) {
-                        HStack {
-                            Spacer()
-                            Label("Save Reading", systemImage: "checkmark.circle.fill")
-                                .font(.headline)
-                            Spacer()
-                        }
+            Section {
+                Button(action: saveReading) {
+                    HStack {
+                        Spacer()
+                        Label("Save", systemImage: "checkmark.circle.fill")
+                            .font(.headline)
+                        Spacer()
                     }
-                    .disabled(!isValidReading)
+                }
+                .disabled(!isValidReading)
+            }
+        }
+        .toolbar {
+            ToolbarItemGroup(placement: .keyboard) {
+                Spacer()
+                Button("Done") {
+                    focusedField = nil
                 }
             }
-            .navigationTitle("Add BP Reading")
-            .alert("Reading Saved", isPresented: $showingSavedAlert) {
-                Button("OK", role: .cancel) {
-                    resetForm()
-                }
-            } message: {
-                Text("Your blood pressure reading has been saved.")
+        }
+        .alert("Reading Saved", isPresented: $showingSavedAlert) {
+            Button("OK", role: .cancel) {
+                resetForm()
             }
+        } message: {
+            Text("Your blood pressure reading has been saved.")
         }
     }
 
     private func saveReading() {
         let reading = BPReading(systolic: systolic, diastolic: diastolic, timestamp: timestamp)
         modelContext.insert(reading)
+
+        // Explicitly save to persist immediately
+        do {
+            try modelContext.save()
+        } catch {
+            print("Failed to save BP reading: \(error)")
+        }
 
         // Haptic feedback
         let generator = UINotificationFeedbackGenerator()
@@ -142,6 +146,8 @@ struct BPEntryView: View {
     private func resetForm() {
         systolic = 120
         diastolic = 80
+        systolicText = "120"
+        diastolicText = "80"
         timestamp = Date()
     }
 

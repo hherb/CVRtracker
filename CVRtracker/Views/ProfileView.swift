@@ -196,6 +196,13 @@ struct ProfileView: View {
             )
             modelContext.insert(newProfile)
         }
+
+        // Explicitly save to persist immediately
+        do {
+            try modelContext.save()
+        } catch {
+            print("Failed to save profile: \(error)")
+        }
     }
 
     private func createCurrentProfile(lipid: LipidReading) -> UserProfile {

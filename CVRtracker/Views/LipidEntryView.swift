@@ -6,15 +6,36 @@ struct LipidEntryView: View {
     @Environment(\.dismiss) private var dismiss
     @Query private var profiles: [UserProfile]
 
-    @State private var totalCholesterol: Double = 200
-    @State private var hdlCholesterol: Double = 50
-    @State private var ldlCholesterol: Double = 100
-    @State private var triglycerides: Double = 150
+    @State private var totalCholesterolText: String = ""
+    @State private var hdlCholesterolText: String = ""
+    @State private var ldlCholesterolText: String = ""
+    @State private var triglyceridesText: String = ""
     @State private var hasLDL: Bool = false
     @State private var hasTriglycerides: Bool = false
     @State private var timestamp: Date = Date()
 
     @State private var showingSaveConfirmation = false
+
+    private var totalCholesterol: Double? {
+        Double(totalCholesterolText)
+    }
+
+    private var hdlCholesterol: Double? {
+        Double(hdlCholesterolText)
+    }
+
+    private var ldlCholesterol: Double? {
+        Double(ldlCholesterolText)
+    }
+
+    private var triglycerides: Double? {
+        Double(triglyceridesText)
+    }
+
+    private var isValidEntry: Bool {
+        guard let total = totalCholesterol, let hdl = hdlCholesterol else { return false }
+        return total > 0 && hdl > 0
+    }
 
     private var profile: UserProfile? {
         profiles.first
@@ -41,7 +62,7 @@ struct LipidEntryView: View {
                     HStack {
                         Text("Total Cholesterol")
                         Spacer()
-                        TextField("Value", value: $totalCholesterol, format: .number.precision(.fractionLength(1)))
+                        TextField("", text: $totalCholesterolText)
                             .keyboardType(.decimalPad)
                             .multilineTextAlignment(.trailing)
                             .frame(width: 80)
@@ -52,7 +73,7 @@ struct LipidEntryView: View {
                     HStack {
                         Text("HDL Cholesterol")
                         Spacer()
-                        TextField("Value", value: $hdlCholesterol, format: .number.precision(.fractionLength(1)))
+                        TextField("", text: $hdlCholesterolText)
                             .keyboardType(.decimalPad)
                             .multilineTextAlignment(.trailing)
                             .frame(width: 80)
@@ -70,7 +91,7 @@ struct LipidEntryView: View {
                         HStack {
                             Text("LDL Cholesterol")
                             Spacer()
-                            TextField("Value", value: $ldlCholesterol, format: .number.precision(.fractionLength(1)))
+                            TextField("", text: $ldlCholesterolText)
                                 .keyboardType(.decimalPad)
                                 .multilineTextAlignment(.trailing)
                                 .frame(width: 80)
@@ -85,7 +106,7 @@ struct LipidEntryView: View {
                         HStack {
                             Text("Triglycerides")
                             Spacer()
-                            TextField("Value", value: $triglycerides, format: .number.precision(.fractionLength(1)))
+                            TextField("", text: $triglyceridesText)
                                 .keyboardType(.decimalPad)
                                 .multilineTextAlignment(.trailing)
                                 .frame(width: 80)
@@ -110,7 +131,7 @@ struct LipidEntryView: View {
                             Spacer()
                         }
                     }
-                    .disabled(totalCholesterol <= 0 || hdlCholesterol <= 0)
+                    .disabled(!isValidEntry)
                 }
             }
             .navigationTitle("Add Lipids")
@@ -133,11 +154,13 @@ struct LipidEntryView: View {
     }
 
     private func saveReading() {
+        guard let total = totalCholesterol, let hdl = hdlCholesterol else { return }
+
         // Convert from display units to mg/dL for storage
-        let totalInMgdL = cholesterolUnit.toMgdL(totalCholesterol)
-        let hdlInMgdL = cholesterolUnit.toMgdL(hdlCholesterol)
-        let ldlInMgdL: Double? = hasLDL ? cholesterolUnit.toMgdL(ldlCholesterol) : nil
-        let trigInMgdL: Double? = hasTriglycerides ? triglycerideUnit.toMgdL(triglycerides) : nil
+        let totalInMgdL = cholesterolUnit.toMgdL(total)
+        let hdlInMgdL = cholesterolUnit.toMgdL(hdl)
+        let ldlInMgdL: Double? = hasLDL && ldlCholesterol != nil ? cholesterolUnit.toMgdL(ldlCholesterol!) : nil
+        let trigInMgdL: Double? = hasTriglycerides && triglycerides != nil ? triglycerideUnit.toMgdL(triglycerides!) : nil
 
         let reading = LipidReading(
             totalCholesterol: totalInMgdL,
@@ -148,6 +171,14 @@ struct LipidEntryView: View {
         )
 
         modelContext.insert(reading)
+
+        // Explicitly save to persist immediately
+        do {
+            try modelContext.save()
+        } catch {
+            print("Failed to save lipid reading: \(error)")
+        }
+
         showingSaveConfirmation = true
     }
 }

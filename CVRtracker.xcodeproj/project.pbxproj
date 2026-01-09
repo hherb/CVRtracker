@@ -19,6 +19,10 @@
 		B8000012123456780000000A /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8000013123456780000000A /* ProfileView.swift */; };
 		B8000014123456780000000B /* RiskResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8000015123456780000000B /* RiskResultView.swift */; };
 		B8000016123456780000000C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B8000017123456780000000C /* Assets.xcassets */; };
+		B8000018123456780000000D /* LipidReading.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8000019123456780000000D /* LipidReading.swift */; };
+		B800001A123456780000000E /* LipidEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B800001B123456780000000E /* LipidEntryView.swift */; };
+		B800001C123456780000000F /* LipidHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B800001D123456780000000F /* LipidHistoryView.swift */; };
+		B800001E1234567800000010 /* SchemaVersioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = B800001F1234567800000010 /* SchemaVersioning.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +38,10 @@
 		B8000013123456780000000A /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		B8000015123456780000000B /* RiskResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RiskResultView.swift; sourceTree = "<group>"; };
 		B8000017123456780000000C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B8000019123456780000000D /* LipidReading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LipidReading.swift; sourceTree = "<group>"; };
+		B800001B123456780000000E /* LipidEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LipidEntryView.swift; sourceTree = "<group>"; };
+		B800001D123456780000000F /* LipidHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LipidHistoryView.swift; sourceTree = "<group>"; };
+		B800001F1234567800000010 /* SchemaVersioning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchemaVersioning.swift; sourceTree = "<group>"; };
 		B80000201234567800000010 /* CVRtracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CVRtracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -81,6 +89,8 @@
 				B80000051234567800000003 /* BPReading.swift */,
 				B80000071234567800000004 /* UserProfile.swift */,
 				B80000091234567800000005 /* Calculations.swift */,
+				B8000019123456780000000D /* LipidReading.swift */,
+				B800001F1234567800000010 /* SchemaVersioning.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -95,6 +105,8 @@
 				B80000111234567800000009 /* TrendChartView.swift */,
 				B8000013123456780000000A /* ProfileView.swift */,
 				B8000015123456780000000B /* RiskResultView.swift */,
+				B800001B123456780000000E /* LipidEntryView.swift */,
+				B800001D123456780000000F /* LipidHistoryView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -179,6 +191,10 @@
 				B80000101234567800000009 /* TrendChartView.swift in Sources */,
 				B8000012123456780000000A /* ProfileView.swift in Sources */,
 				B8000014123456780000000B /* RiskResultView.swift in Sources */,
+				B8000018123456780000000D /* LipidReading.swift in Sources */,
+				B800001A123456780000000E /* LipidEntryView.swift in Sources */,
+				B800001C123456780000000F /* LipidHistoryView.swift in Sources */,
+				B800001E1234567800000010 /* SchemaVersioning.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

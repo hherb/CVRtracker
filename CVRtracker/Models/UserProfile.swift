@@ -57,9 +57,19 @@ final class UserProfile {
     var isSmoker: Bool
     var hasDiabetes: Bool
 
-    // Unit preferences
-    var cholesterolUnit: CholesterolUnit
-    var triglycerideUnit: TriglycerideUnit
+    // Unit preferences - optional with defaults for migration compatibility
+    var cholesterolUnitRaw: String?
+    var triglycerideUnitRaw: String?
+
+    var cholesterolUnit: CholesterolUnit {
+        get { CholesterolUnit(rawValue: cholesterolUnitRaw ?? "mg/dL") ?? .mgdL }
+        set { cholesterolUnitRaw = newValue.rawValue }
+    }
+
+    var triglycerideUnit: TriglycerideUnit {
+        get { TriglycerideUnit(rawValue: triglycerideUnitRaw ?? "mg/dL") ?? .mgdL }
+        set { triglycerideUnitRaw = newValue.rawValue }
+    }
 
     init(
         age: Int = 50,
@@ -80,8 +90,8 @@ final class UserProfile {
         self.onHypertensionTreatment = onHypertensionTreatment
         self.isSmoker = isSmoker
         self.hasDiabetes = hasDiabetes
-        self.cholesterolUnit = cholesterolUnit
-        self.triglycerideUnit = triglycerideUnit
+        self.cholesterolUnitRaw = cholesterolUnit.rawValue
+        self.triglycerideUnitRaw = triglycerideUnit.rawValue
     }
 
     var isComplete: Bool {

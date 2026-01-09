@@ -4,15 +4,8 @@ import SwiftData
 @main
 struct CVRtrackerApp: App {
     var sharedModelContainer: ModelContainer = {
-        let schema = Schema([
-            BPReading.self,
-            UserProfile.self,
-            LipidReading.self,
-        ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-
         do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
+            return try CVRtrackerSchema.createContainer()
         } catch {
             fatalError("Could not create ModelContainer: \(error)")
         }
