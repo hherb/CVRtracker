@@ -119,35 +119,44 @@ struct LipidReadingRow: View {
                     Text("TC/HDL")
                         .font(.caption2)
                         .foregroundColor(.secondary)
+                    Text(reading.totalHDLRatioCategory.description)
+                        .font(.caption2)
+                        .foregroundColor(colorForRatio(reading.totalHDLRatio))
                 }
             }
 
-            HStack(spacing: 16) {
-                lipidValue(
+            HStack(spacing: 12) {
+                lipidValueWithHint(
                     label: "Total",
                     value: reading.displayTotalCholesterol(unit: cholesterolUnit),
-                    unit: cholesterolUnit.rawValue
+                    hint: reading.totalCholesterolCategory.hint,
+                    color: colorForTotalCholesterol(reading.totalCholesterolCategory)
                 )
 
-                lipidValue(
+                lipidValueWithHint(
                     label: "HDL",
                     value: reading.displayHDLCholesterol(unit: cholesterolUnit),
-                    unit: cholesterolUnit.rawValue
+                    hint: reading.hdlCategory.hint,
+                    color: colorForHDL(reading.hdlCategory)
                 )
 
-                if let ldl = reading.displayLDLCholesterol(unit: cholesterolUnit) {
-                    lipidValue(
+                if let ldl = reading.displayLDLCholesterol(unit: cholesterolUnit),
+                   let ldlCat = reading.ldlCategory {
+                    lipidValueWithHint(
                         label: "LDL",
                         value: ldl,
-                        unit: cholesterolUnit.rawValue
+                        hint: ldlCat.hint,
+                        color: colorForLDL(ldlCat)
                     )
                 }
 
-                if let trig = reading.displayTriglycerides(unit: triglycerideUnit) {
-                    lipidValue(
+                if let trig = reading.displayTriglycerides(unit: triglycerideUnit),
+                   let trigCat = reading.triglyceridesCategory {
+                    lipidValueWithHint(
                         label: "Trig",
                         value: trig,
-                        unit: triglycerideUnit.rawValue
+                        hint: trigCat.hint,
+                        color: colorForTriglycerides(trigCat)
                     )
                 }
             }
@@ -155,14 +164,19 @@ struct LipidReadingRow: View {
         .padding(.vertical, 4)
     }
 
-    private func lipidValue(label: String, value: Double, unit: String) -> some View {
-        VStack(alignment: .leading) {
+    private func lipidValueWithHint(label: String, value: Double, hint: String, color: Color) -> some View {
+        VStack(alignment: .leading, spacing: 2) {
             Text(label)
                 .font(.caption2)
                 .foregroundColor(.secondary)
-            Text(String(format: "%.0f", value))
+            Text(String(format: "%.1f", value))
                 .font(.subheadline)
                 .fontWeight(.medium)
+            Text(hint)
+                .font(.caption2)
+                .foregroundColor(color)
+                .lineLimit(1)
+                .minimumScaleFactor(0.8)
         }
     }
 
@@ -173,6 +187,38 @@ struct LipidReadingRow: View {
             return .orange
         } else {
             return .red
+        }
+    }
+
+    private func colorForTotalCholesterol(_ category: TotalCholesterolCategory) -> Color {
+        switch category {
+        case .desirable: return .green
+        case .borderline: return .orange
+        case .high: return .red
+        }
+    }
+
+    private func colorForHDL(_ category: HDLCholesterolCategory) -> Color {
+        switch category {
+        case .low: return .red
+        case .acceptable: return .orange
+        case .optimal: return .green
+        }
+    }
+
+    private func colorForLDL(_ category: LDLCholesterolCategory) -> Color {
+        switch category {
+        case .optimal, .nearOptimal: return .green
+        case .borderline: return .orange
+        case .high, .veryHigh: return .red
+        }
+    }
+
+    private func colorForTriglycerides(_ category: TriglyceridesCategory) -> Color {
+        switch category {
+        case .normal: return .green
+        case .borderline: return .orange
+        case .high, .veryHigh: return .red
         }
     }
 }

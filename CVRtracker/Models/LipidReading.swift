@@ -169,3 +169,180 @@ enum LipidCategory: String, CaseIterable {
         }
     }
 }
+
+/// Category for total cholesterol based on clinical guidelines.
+enum TotalCholesterolCategory: String {
+    case desirable = "Desirable"
+    case borderline = "Borderline"
+    case high = "High"
+
+    var color: String {
+        switch self {
+        case .desirable: return "green"
+        case .borderline: return "orange"
+        case .high: return "red"
+        }
+    }
+
+    var hint: String {
+        switch self {
+        case .desirable: return "Desirable range"
+        case .borderline: return "Borderline high"
+        case .high: return "High – discuss with doctor"
+        }
+    }
+
+    /// Categorize total cholesterol in mg/dL
+    static func categorize(_ value: Double) -> TotalCholesterolCategory {
+        if value < 200 {
+            return .desirable
+        } else if value < 240 {
+            return .borderline
+        } else {
+            return .high
+        }
+    }
+}
+
+/// Category for HDL cholesterol based on clinical guidelines.
+enum HDLCholesterolCategory: String {
+    case low = "Low"
+    case acceptable = "Acceptable"
+    case optimal = "Optimal"
+
+    var color: String {
+        switch self {
+        case .low: return "red"
+        case .acceptable: return "orange"
+        case .optimal: return "green"
+        }
+    }
+
+    var hint: String {
+        switch self {
+        case .low: return "Low – CV risk factor"
+        case .acceptable: return "Acceptable level"
+        case .optimal: return "Optimal – protective"
+        }
+    }
+
+    /// Categorize HDL cholesterol in mg/dL
+    static func categorize(_ value: Double) -> HDLCholesterolCategory {
+        if value < 40 {
+            return .low
+        } else if value < 60 {
+            return .acceptable
+        } else {
+            return .optimal
+        }
+    }
+}
+
+/// Category for LDL cholesterol based on clinical guidelines.
+enum LDLCholesterolCategory: String {
+    case optimal = "Optimal"
+    case nearOptimal = "Near Optimal"
+    case borderline = "Borderline"
+    case high = "High"
+    case veryHigh = "Very High"
+
+    var color: String {
+        switch self {
+        case .optimal: return "green"
+        case .nearOptimal: return "green"
+        case .borderline: return "orange"
+        case .high: return "red"
+        case .veryHigh: return "red"
+        }
+    }
+
+    var hint: String {
+        switch self {
+        case .optimal: return "Optimal"
+        case .nearOptimal: return "Near optimal"
+        case .borderline: return "Borderline high"
+        case .high: return "High"
+        case .veryHigh: return "Very high – treat"
+        }
+    }
+
+    /// Categorize LDL cholesterol in mg/dL
+    static func categorize(_ value: Double) -> LDLCholesterolCategory {
+        if value < 100 {
+            return .optimal
+        } else if value < 130 {
+            return .nearOptimal
+        } else if value < 160 {
+            return .borderline
+        } else if value < 190 {
+            return .high
+        } else {
+            return .veryHigh
+        }
+    }
+}
+
+/// Category for triglycerides based on clinical guidelines.
+enum TriglyceridesCategory: String {
+    case normal = "Normal"
+    case borderline = "Borderline"
+    case high = "High"
+    case veryHigh = "Very High"
+
+    var color: String {
+        switch self {
+        case .normal: return "green"
+        case .borderline: return "orange"
+        case .high: return "red"
+        case .veryHigh: return "red"
+        }
+    }
+
+    var hint: String {
+        switch self {
+        case .normal: return "Normal"
+        case .borderline: return "Borderline high"
+        case .high: return "High"
+        case .veryHigh: return "Very high – treat"
+        }
+    }
+
+    /// Categorize triglycerides in mg/dL
+    static func categorize(_ value: Double) -> TriglyceridesCategory {
+        if value < 150 {
+            return .normal
+        } else if value < 200 {
+            return .borderline
+        } else if value < 500 {
+            return .high
+        } else {
+            return .veryHigh
+        }
+    }
+}
+
+// MARK: - LipidReading Category Extensions
+
+extension LipidReading {
+    /// Category for total cholesterol based on stored value (mg/dL)
+    var totalCholesterolCategory: TotalCholesterolCategory {
+        TotalCholesterolCategory.categorize(totalCholesterol)
+    }
+
+    /// Category for HDL cholesterol based on stored value (mg/dL)
+    var hdlCategory: HDLCholesterolCategory {
+        HDLCholesterolCategory.categorize(hdlCholesterol)
+    }
+
+    /// Category for LDL cholesterol based on calculated value (mg/dL)
+    var ldlCategory: LDLCholesterolCategory? {
+        guard let ldl = calculatedLDL else { return nil }
+        return LDLCholesterolCategory.categorize(ldl)
+    }
+
+    /// Category for triglycerides based on stored value (mg/dL)
+    var triglyceridesCategory: TriglyceridesCategory? {
+        guard let trig = triglycerides else { return nil }
+        return TriglyceridesCategory.categorize(trig)
+    }
+}
