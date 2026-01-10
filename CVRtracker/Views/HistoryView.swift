@@ -66,9 +66,21 @@ struct ReadingRow: View {
 
     var body: some View {
         HStack {
+            // BP Category indicator
+            bpCategoryIndicator
+
             VStack(alignment: .leading, spacing: 4) {
-                Text("\(reading.systolic)/\(reading.diastolic)")
-                    .font(.headline)
+                HStack(spacing: 8) {
+                    Text("\(reading.systolic)/\(reading.diastolic)")
+                        .font(.headline)
+
+                    // Show warning for urgent readings
+                    if reading.bpCategory.isUrgent {
+                        Image(systemName: "exclamationmark.triangle.fill")
+                            .foregroundColor(reading.bpCategory.color)
+                            .font(.caption)
+                    }
+                }
 
                 Text(reading.timestamp, style: .date)
                     .font(.caption)
@@ -90,9 +102,24 @@ struct ReadingRow: View {
                 Text("fPP")
                     .font(.caption2)
                     .foregroundColor(.secondary)
+
+                // Show BP category label for non-normal readings
+                if reading.bpCategory != .normal {
+                    Text(reading.bpCategory.rawValue)
+                        .font(.caption2)
+                        .foregroundColor(reading.bpCategory.color)
+                }
             }
         }
         .padding(.vertical, 4)
+    }
+
+    /// Colored indicator showing BP category
+    private var bpCategoryIndicator: some View {
+        RoundedRectangle(cornerRadius: 2)
+            .fill(reading.bpCategory.color)
+            .frame(width: 4)
+            .padding(.vertical, 2)
     }
 
     private func colorForFPP(_ fpp: Double) -> Color {

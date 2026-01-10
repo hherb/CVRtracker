@@ -1,5 +1,6 @@
 import Foundation
 import SwiftData
+import SwiftUI
 
 /// A single blood pressure reading with associated cardiovascular metrics.
 ///
@@ -105,6 +106,106 @@ enum FPPCategory: String, CaseIterable {
         case .normal: return "< 0.40 - Good vascular health"
         case .elevated: return "0.40-0.50 - Moderate arterial stiffness"
         case .high: return "> 0.50 - Increased arterial stiffness"
+        }
+    }
+}
+
+/// Blood pressure category based on AHA/ACC guidelines.
+///
+/// Classification follows the 2017 ACC/AHA Guideline for High Blood Pressure.
+/// The most severe applicable category is used when systolic and diastolic
+/// fall into different categories.
+enum BPCategory: String, CaseIterable {
+    /// Both systolic < 120 AND diastolic < 80 mmHg
+    case normal = "Normal"
+
+    /// Systolic 120-129 AND diastolic < 80 mmHg
+    case elevated = "Elevated"
+
+    /// Systolic 130-139 OR diastolic 80-89 mmHg
+    case hypertensionStage1 = "High (Stage 1)"
+
+    /// Systolic 140-179 OR diastolic 90-119 mmHg
+    case hypertensionStage2 = "High (Stage 2)"
+
+    /// Systolic ≥ 180 OR diastolic ≥ 120 mmHg - requires immediate attention
+    case hypertensiveCrisis = "Hypertensive Crisis"
+
+    /// Human-readable description with guidance
+    var description: String {
+        switch self {
+        case .normal:
+            return "Blood pressure is in the healthy range."
+        case .elevated:
+            return "Blood pressure is slightly elevated. Lifestyle changes recommended."
+        case .hypertensionStage1:
+            return "High blood pressure (Stage 1). Consult your healthcare provider."
+        case .hypertensionStage2:
+            return "High blood pressure (Stage 2). Medical attention recommended."
+        case .hypertensiveCrisis:
+            return "Blood pressure is critically high. Seek immediate medical attention if you have symptoms."
+        }
+    }
+
+    /// Color for UI display
+    var color: Color {
+        switch self {
+        case .normal: return .green
+        case .elevated: return .yellow
+        case .hypertensionStage1: return .orange
+        case .hypertensionStage2: return .red
+        case .hypertensiveCrisis: return Color(red: 0.5, green: 0, blue: 0) // Dark red
+        }
+    }
+
+    /// Whether this reading requires urgent attention
+    var isUrgent: Bool {
+        self == .hypertensiveCrisis
+    }
+
+    /// Whether this BP category should override fPP interpretation
+    /// (BP is the primary concern, fPP is secondary)
+    var overridesFPP: Bool {
+        self == .hypertensiveCrisis || self == .hypertensionStage2
+    }
+}
+
+// MARK: - BPReading BP Category Extension
+
+extension BPReading {
+    /// Blood pressure category based on AHA/ACC guidelines.
+    ///
+    /// Uses the higher category when systolic and diastolic fall into different categories.
+    var bpCategory: BPCategory {
+        if systolic >= 180 || diastolic >= 120 {
+            return .hypertensiveCrisis
+        } else if systolic >= 140 || diastolic >= 90 {
+            return .hypertensionStage2
+        } else if systolic >= 130 || diastolic >= 80 {
+            return .hypertensionStage1
+        } else if systolic >= 120 {
+            return .elevated
+        } else {
+            return .normal
+        }
+    }
+
+    /// Contextual interpretation of fPP considering BP category.
+    ///
+    /// When blood pressure is dangerously high, the fPP interpretation is de-emphasized
+    /// because immediate BP control is more important than arterial stiffness assessment.
+    var fppInterpretation: String {
+        switch bpCategory {
+        case .hypertensiveCrisis:
+            return "Blood pressure is critically elevated. Arterial stiffness assessment is secondary to immediate BP control."
+        case .hypertensionStage2:
+            return "High blood pressure is your primary cardiovascular concern. Focus on BP management first."
+        case .hypertensionStage1:
+            return fppCategory.description + " Note: Also address your elevated blood pressure."
+        case .elevated:
+            return fppCategory.description + " Your blood pressure is slightly elevated."
+        case .normal:
+            return fppCategory.description
         }
     }
 }

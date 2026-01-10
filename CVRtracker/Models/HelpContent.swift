@@ -344,6 +344,120 @@ struct HelpContent {
             """,
         clinicalRelevance: "Syncing health data between apps and devices provides a more complete picture of your cardiovascular health over time and enables better tracking of trends."
     )
+
+    // MARK: - Understanding Your Results (Patient Education)
+
+    static let understandingPulsePressure = HelpTopic(
+        title: "Understanding Your Pulse Pressure",
+        shortDescription: "What pulse pressure tells you about heart health",
+        detailedDescription: """
+            Your Blood Pressure Has Two Numbers for a Reason
+
+            When you check your blood pressure, you get two numbers like "120/80." The top number (systolic) is the pressure when your heart pumps. The bottom number (diastolic) is the pressure when your heart rests between beats.
+
+            The difference between these two numbers is called your pulse pressure. If your blood pressure is 120/80, your pulse pressure is 40 mmHg (120 minus 80).
+
+            What's Normal?
+
+            A healthy pulse pressure is between 40 and 60 mmHg. Research from the Framingham Heart Study found that for every 10 mmHg increase in pulse pressure above normal, your risk of heart problems goes up by about 20%.
+
+            Why Does Pulse Pressure Matter?
+
+            Your arteries are like flexible tubes. When they're healthy, they stretch when blood pumps through them, then spring back. This "cushioning" effect keeps blood flowing smoothly to your organs.
+
+            As we age—or if we have high blood pressure, diabetes, or other conditions—arteries can become stiffer, like old rubber bands that have lost their stretch. When arteries get stiff:
+
+            • The top number (systolic) goes up
+            • The bottom number (diastolic) may stay the same or drop
+            • The gap between them (pulse pressure) gets wider
+
+            A wide pulse pressure (over 60 mmHg) often signals that your arteries have become stiffer than normal for your age.
+
+            But Here's the Important Part
+
+            While pulse pressure tells us about artery stiffness, your actual blood pressure numbers matter more for immediate health risk.
+
+            Think of it this way: If someone has a blood pressure of 200/140, their pulse pressure of 60 mmHg might look "normal"—but their blood pressure is dangerously high and needs immediate attention. The pulse pressure is less important than the fact that both numbers are in the danger zone.
+
+            Blood Pressure Categories:
+
+            • Normal: Less than 120/80 mmHg
+            • Elevated: 120-129 / less than 80 mmHg
+            • High (Stage 1): 130-139 / 80-89 mmHg
+            • High (Stage 2): 140+ / 90+ mmHg
+            • Crisis (seek care): 180+ / 120+ mmHg
+
+            Only when your blood pressure is in a safe range should you focus on what your pulse pressure says about artery health.
+
+            What About Fractional Pulse Pressure (fPP)?
+
+            This app calculates something called "fractional pulse pressure" or fPP. It's a way to measure arterial stiffness that accounts for your overall blood pressure level.
+
+            • fPP below 0.40: Good arterial elasticity
+            • fPP 0.40-0.50: Moderate arterial stiffness
+            • fPP above 0.50: Significant arterial stiffness
+
+            Remember: fPP only gives meaningful information about your arteries when your blood pressure itself is not dangerously high.
+
+            Age Makes a Difference
+
+            Research shows that pulse pressure affects people differently depending on age:
+
+            • Under 50: Pulse pressure has little impact on heart risk. Focus on overall blood pressure.
+            • Over 50: Pulse pressure becomes an increasingly important predictor of heart problems.
+
+            This is because arterial stiffness naturally increases with age, so elevated pulse pressure in older adults is a clearer warning sign.
+
+            What Can You Do?
+
+            The good news is that arterial stiffness can often be slowed or improved:
+
+            • Regular aerobic exercise (walking, swimming, cycling)
+            • Eating a heart-healthy diet (less salt, more vegetables)
+            • Maintaining a healthy weight
+            • Not smoking
+            • Managing blood pressure, cholesterol, and blood sugar
+            • Omega-3 fatty acids from fish or supplements
+            """,
+        clinicalRelevance: "Understanding pulse pressure in context helps you focus on what matters most: when blood pressure is high, that's the priority. When blood pressure is normal, pulse pressure helps reveal hidden arterial stiffness that could be addressed through lifestyle changes.",
+        references: [
+            Reference(
+                title: "Framingham Heart Study: Pulse Pressure and CV Risk",
+                url: URL(string: "https://www.ahajournals.org/doi/10.1161/hy1001.092966")!
+            ),
+            Reference(
+                title: "NIH StatPearls: Pulse Pressure Physiology",
+                url: URL(string: "https://www.ncbi.nlm.nih.gov/books/NBK482408/")!
+            ),
+            Reference(
+                title: "Wide Pulse Pressure: A Clinical Review",
+                url: URL(string: "https://pmc.ncbi.nlm.nih.gov/articles/PMC8029839/")!
+            ),
+            Reference(
+                title: "Age-Related Pulse Pressure Risk Assessment",
+                url: URL(string: "https://pmc.ncbi.nlm.nih.gov/articles/PMC8457427/")!
+            ),
+            Reference(
+                title: "Arterial Stiffness and Hypertension",
+                url: URL(string: "https://pmc.ncbi.nlm.nih.gov/articles/PMC10691097/")!
+            )
+        ]
+    )
+}
+
+/// A research reference with a clickable URL.
+///
+/// Used to provide citations for educational content, allowing users
+/// to explore the scientific basis for health information.
+struct Reference: Identifiable {
+    /// Unique identifier for SwiftUI list operations
+    let id = UUID()
+
+    /// Display title for the reference (e.g., "Framingham Heart Study")
+    let title: String
+
+    /// URL to the research paper or article
+    let url: URL
 }
 
 /// A single educational topic with layered information depth.
@@ -370,6 +484,18 @@ struct HelpTopic: Identifiable {
 
     /// Why this metric matters for cardiovascular health assessment
     let clinicalRelevance: String
+
+    /// Optional research references with clickable links
+    let references: [Reference]
+
+    init(title: String, shortDescription: String, detailedDescription: String,
+         clinicalRelevance: String, references: [Reference] = []) {
+        self.title = title
+        self.shortDescription = shortDescription
+        self.detailedDescription = detailedDescription
+        self.clinicalRelevance = clinicalRelevance
+        self.references = references
+    }
 }
 
 /// A grouped section of related help topics for the tutorial view.
@@ -394,13 +520,19 @@ struct TutorialSection: Identifiable {
 extension HelpContent {
     /// Organized sections for the tutorial view.
     ///
-    /// Topics are grouped into five main categories:
-    /// 1. Blood Pressure Basics - fundamental BP concepts
-    /// 2. Arterial Stiffness & Vascular Aging - advanced health indicators
-    /// 3. Understanding Lipids - cholesterol and triglyceride education
-    /// 4. Cardiovascular Risk Assessment - Framingham risk scores
-    /// 5. Risk Factors - modifiable lifestyle factors
+    /// Topics are grouped into six main categories:
+    /// 1. Understanding Your Results - interpreting your readings in context
+    /// 2. Blood Pressure Basics - fundamental BP concepts
+    /// 3. Arterial Stiffness & Vascular Aging - advanced health indicators
+    /// 4. Understanding Lipids - cholesterol and triglyceride education
+    /// 5. Cardiovascular Risk Assessment - Framingham risk scores
+    /// 6. Risk Factors - modifiable lifestyle factors
     static let tutorialSections: [TutorialSection] = [
+        TutorialSection(
+            title: "Understanding Your Results",
+            icon: "lightbulb.fill",
+            topics: [understandingPulsePressure]
+        ),
         TutorialSection(
             title: "Blood Pressure Basics",
             icon: "heart.fill",

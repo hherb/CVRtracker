@@ -70,35 +70,17 @@ struct DashboardView: View {
 
     private var currentFPPCard: some View {
         VStack(spacing: 8) {
-            HStack(spacing: 6) {
-                Text("Fractional Pulse Pressure")
-                    .font(.headline)
-                    .foregroundColor(.secondary)
-                InfoButton(topic: HelpContent.fractionalPulsePressure)
-            }
-
             if let reading = latestReading {
-                Text(String(format: "%.3f", reading.fractionalPulsePressure))
-                    .font(.system(size: 56, weight: .bold, design: .rounded))
-                    .foregroundColor(colorForFPP(reading.fractionalPulsePressure))
-
-                Text(reading.fppCategory.rawValue)
-                    .font(.subheadline)
-                    .fontWeight(.semibold)
-                    .foregroundColor(colorForFPP(reading.fractionalPulsePressure))
-
-                Text(reading.fppCategory.description)
-                    .font(.caption)
-                    .foregroundColor(.secondary)
-                    .multilineTextAlignment(.center)
+                // Show BP category warning for critical readings
+                if reading.bpCategory.isUrgent {
+                    urgentBPWarning(reading: reading)
+                } else if reading.bpCategory.overridesFPP {
+                    highBPWithFPP(reading: reading)
+                } else {
+                    normalFPPDisplay(reading: reading)
+                }
             } else {
-                Text("--")
-                    .font(.system(size: 56, weight: .bold, design: .rounded))
-                    .foregroundColor(.secondary)
-
-                Text("No readings yet")
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
+                noReadingsDisplay
             }
         }
         .frame(maxWidth: .infinity)
@@ -106,6 +88,152 @@ struct DashboardView: View {
         .background(Color(.systemBackground))
         .cornerRadius(16)
         .shadow(color: .black.opacity(0.05), radius: 10)
+    }
+
+    /// Display for hypertensive crisis - emphasize BP, minimize fPP
+    private func urgentBPWarning(reading: BPReading) -> some View {
+        VStack(spacing: 12) {
+            HStack(spacing: 6) {
+                Image(systemName: "exclamationmark.triangle.fill")
+                    .foregroundColor(.white)
+                Text(reading.bpCategory.rawValue)
+                    .font(.headline)
+                    .foregroundColor(.white)
+            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 8)
+            .background(reading.bpCategory.color)
+            .cornerRadius(8)
+
+            Text("\(reading.systolic)/\(reading.diastolic)")
+                .font(.system(size: 48, weight: .bold, design: .rounded))
+                .foregroundColor(reading.bpCategory.color)
+
+            Text("mmHg")
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+
+            Text(reading.bpCategory.description)
+                .font(.caption)
+                .foregroundColor(.secondary)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal)
+
+            Divider()
+                .padding(.vertical, 4)
+
+            // Show fPP but de-emphasized
+            HStack(spacing: 6) {
+                Text("fPP:")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                Text(String(format: "%.3f", reading.fractionalPulsePressure))
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                InfoButton(topic: HelpContent.fractionalPulsePressure)
+            }
+
+            Text("Arterial stiffness assessment is secondary to BP control")
+                .font(.caption2)
+                .foregroundColor(.secondary)
+                .italic()
+        }
+    }
+
+    /// Display for Stage 2 hypertension - show both BP and fPP with context
+    private func highBPWithFPP(reading: BPReading) -> some View {
+        VStack(spacing: 12) {
+            // BP Category badge
+            HStack(spacing: 6) {
+                Image(systemName: "exclamationmark.circle.fill")
+                    .foregroundColor(reading.bpCategory.color)
+                Text(reading.bpCategory.rawValue)
+                    .font(.subheadline)
+                    .fontWeight(.semibold)
+                    .foregroundColor(reading.bpCategory.color)
+            }
+
+            HStack(spacing: 6) {
+                Text("Fractional Pulse Pressure")
+                    .font(.headline)
+                    .foregroundColor(.secondary)
+                InfoButton(topic: HelpContent.fractionalPulsePressure)
+            }
+
+            Text(String(format: "%.3f", reading.fractionalPulsePressure))
+                .font(.system(size: 48, weight: .bold, design: .rounded))
+                .foregroundColor(colorForFPP(reading.fractionalPulsePressure))
+
+            Text(reading.fppCategory.rawValue)
+                .font(.subheadline)
+                .fontWeight(.semibold)
+                .foregroundColor(colorForFPP(reading.fractionalPulsePressure))
+
+            Text(reading.fppInterpretation)
+                .font(.caption)
+                .foregroundColor(.secondary)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal)
+        }
+    }
+
+    /// Normal fPP display when BP is not critical
+    private func normalFPPDisplay(reading: BPReading) -> some View {
+        VStack(spacing: 8) {
+            // Show BP category if elevated (but not critical)
+            if reading.bpCategory != .normal {
+                HStack(spacing: 6) {
+                    Circle()
+                        .fill(reading.bpCategory.color)
+                        .frame(width: 8, height: 8)
+                    Text(reading.bpCategory.rawValue)
+                        .font(.caption)
+                        .foregroundColor(reading.bpCategory.color)
+                }
+            }
+
+            HStack(spacing: 6) {
+                Text("Fractional Pulse Pressure")
+                    .font(.headline)
+                    .foregroundColor(.secondary)
+                InfoButton(topic: HelpContent.fractionalPulsePressure)
+            }
+
+            Text(String(format: "%.3f", reading.fractionalPulsePressure))
+                .font(.system(size: 56, weight: .bold, design: .rounded))
+                .foregroundColor(colorForFPP(reading.fractionalPulsePressure))
+
+            Text(reading.fppCategory.rawValue)
+                .font(.subheadline)
+                .fontWeight(.semibold)
+                .foregroundColor(colorForFPP(reading.fractionalPulsePressure))
+
+            Text(reading.fppInterpretation)
+                .font(.caption)
+                .foregroundColor(.secondary)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal)
+        }
+    }
+
+    /// Display when no readings exist
+    private var noReadingsDisplay: some View {
+        VStack(spacing: 8) {
+            HStack(spacing: 6) {
+                Text("Fractional Pulse Pressure")
+                    .font(.headline)
+                    .foregroundColor(.secondary)
+                InfoButton(topic: HelpContent.fractionalPulsePressure)
+            }
+
+            Text("--")
+                .font(.system(size: 56, weight: .bold, design: .rounded))
+                .foregroundColor(.secondary)
+
+            Text("No readings yet")
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+        }
     }
 
     private var miniTrendChart: some View {

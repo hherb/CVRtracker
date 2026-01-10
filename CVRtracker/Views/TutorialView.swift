@@ -76,6 +76,38 @@ struct TopicDetailView: View {
                         .background(Color.blue.opacity(0.1))
                         .cornerRadius(12)
                 }
+
+                // Research references (if any)
+                if !topic.references.isEmpty {
+                    Divider()
+
+                    VStack(alignment: .leading, spacing: 12) {
+                        Label("Research References", systemImage: "book.closed")
+                            .font(.headline)
+                            .foregroundColor(.green)
+
+                        Text("Tap to open in your browser")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+
+                        ForEach(topic.references) { ref in
+                            Link(destination: ref.url) {
+                                HStack {
+                                    Text(ref.title)
+                                        .font(.subheadline)
+                                        .foregroundColor(.blue)
+                                        .multilineTextAlignment(.leading)
+                                    Spacer()
+                                    Image(systemName: "arrow.up.right.square")
+                                        .foregroundColor(.blue)
+                                }
+                                .padding()
+                                .background(Color.green.opacity(0.1))
+                                .cornerRadius(8)
+                            }
+                        }
+                    }
+                }
             }
             .padding()
         }
@@ -146,5 +178,11 @@ struct SectionHeaderWithInfo: View {
 #Preview("Topic Detail") {
     NavigationStack {
         TopicDetailView(topic: HelpContent.fractionalPulsePressure)
+    }
+}
+
+#Preview("Topic with References") {
+    NavigationStack {
+        TopicDetailView(topic: HelpContent.understandingPulsePressure)
     }
 }
