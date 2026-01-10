@@ -347,6 +347,125 @@ struct HelpContent {
 
     // MARK: - Understanding Your Results (Patient Education)
 
+    static let interpretingTrends = HelpTopic(
+        title: "Interpreting Your Blood Pressure Trends",
+        shortDescription: "How to understand changes in your readings over time",
+        detailedDescription: """
+            Understanding Your Blood Vessels: Arterial Stiffness and Heart Health
+
+            What Are Stiff Arteries?
+
+            Your arteries are like flexible rubber tubes that carry blood from your heart to the rest of your body. When you're young, these blood vessels are elastic and springy—they can stretch and bounce back with each heartbeat. As we age, or when certain health conditions develop, our arteries gradually become stiffer, like an old rubber band that has lost its flexibility.
+
+            This stiffening isn't just a normal part of aging that we should ignore. Research shows that arterial stiffness is actually a powerful warning sign about the health of your cardiovascular system. Think of it as your blood vessels' way of telling you how well they're aging.
+
+            Why Flexible Arteries Matter
+
+            Your heart works like a pump, sending out blood in rhythmic pulses. Healthy, flexible arteries act as shock absorbers, smoothing out these pulses before they reach delicate organs like your brain and kidneys. When arteries become stiff, they lose this cushioning ability.
+
+            Stiff arteries cause several problems:
+
+            • They increase the workload on your heart – Your heart has to pump harder against rigid arteries, which can lead to the heart muscle becoming thickened and eventually weakened
+
+            • They damage small blood vessels – Without the cushioning effect, powerful pressure waves penetrate into the tiny blood vessels in your brain, kidneys, and eyes, potentially damaging them over time
+
+            • They reduce blood flow to your heart – The coronary arteries that feed your heart muscle receive most of their blood between heartbeats. Stiff arteries reduce the pressure during this rest period, limiting the oxygen supply to your heart
+
+            Interpreting Changes Over Time
+
+            One of the most valuable aspects of tracking your blood pressure is observing how it changes over time. Your doctor considers both your pulse pressure (which reflects arterial stiffness) and your mean arterial pressure or MAP (which represents the average pressure in your arteries throughout the cardiac cycle).
+
+            Here's how to think about changes in your readings:
+
+            WHEN YOUR PULSE PRESSURE DECREASES (Good News!)
+
+            A decreasing pulse pressure suggests your arteries are becoming more flexible—their shock-absorbing ability is improving.
+
+            Best scenario: Your pulse pressure drops AND your overall blood pressure also decreases. This indicates that both your vascular resistance (how narrow or relaxed your small arteries are) has improved AND your arteries are buffering blood flow better. This is the ideal response to treatment or lifestyle changes.
+
+            Also good: Your pulse pressure drops while your overall pressure stays stable. This suggests structural improvement in your arterial walls themselves, independent of pressure changes. Your arteries are becoming healthier even without a change in overall pressure.
+
+            Needs attention: Your pulse pressure drops but your overall pressure increases. While your arteries' shock-absorbing ability has improved, there's an increasing pressure load from elsewhere in your circulation. Your doctor will want to understand what's causing the pressure rise.
+
+            WHEN YOUR PULSE PRESSURE STAYS STABLE
+
+            If your pulse pressure remains unchanged, this means your arterial stiffness hasn't significantly changed.
+
+            Good: If your overall blood pressure decreases while pulse pressure stays stable, this indicates that your vascular resistance has dropped—your small arteries have relaxed—which is beneficial.
+
+            Neutral: If both remain stable, there's no major change occurring. This might be fine if your values are already healthy, or it might mean adjustments to your treatment plan are needed.
+
+            Concerning: If your overall pressure increases while pulse pressure stays stable, this represents an increased cardiovascular load without any improvement in arterial flexibility.
+
+            WHEN YOUR PULSE PRESSURE INCREASES (Concerning)
+
+            An increasing pulse pressure indicates worsening arterial stiffness—your arteries are losing their shock-absorbing ability. This is concerning in all scenarios:
+
+            Concerning: If your overall pressure decreases while pulse pressure increases, this paradoxical pattern suggests your arteries are becoming stiffer even as overall pressure drops. This might indicate progressive arterial disease despite blood pressure treatment.
+
+            Concerning: If your overall pressure stays stable while pulse pressure increases, this isolated rise in pulsatile stress means more pressure waves are reaching your vulnerable organs without the cushioning effect of flexible arteries.
+
+            Most concerning: If both your pulse pressure AND overall pressure increase, this represents a double burden—worsening arterial stiffness plus higher background pressure load. Additionally, a rising pulse pressure with increasing pressure can sometimes indicate "diastolic erosion," where your bottom number drops too low, potentially compromising blood flow to your heart between beats.
+
+            Important Caveats: When Blood Pressure Extremes Take Priority
+
+            While pulse pressure and arterial stiffness are important markers of vascular health, they need to be interpreted in context. Your doctor won't rely on pulse pressure alone when making treatment decisions.
+
+            This means:
+
+            • If your blood pressure is very high (like 180/100), this is a medical concern that needs treatment regardless of your pulse pressure pattern
+
+            • If your blood pressure is very low (like 90/60) and you're experiencing symptoms like dizziness, this may override concerns about pulse pressure patterns—your body needs adequate pressure to function
+
+            • The absolute blood pressure values matter – both the top and bottom numbers provide critical information about your cardiovascular risk
+
+            What You Can Do
+
+            The good news is that arterial stiffness is not entirely irreversible. Research shows that:
+
+            • Regular exercise has been shown to improve arterial function and reduce stiffness
+
+            • Blood pressure control through medication can reduce arterial stiffness beyond simply lowering pressure numbers
+
+            • Healthy lifestyle choices including not smoking, maintaining a healthy weight, and managing diabetes can slow or prevent arterial stiffening
+
+            When working with your doctor on blood pressure management, pay attention to trends in both your pulse pressure and overall blood pressure levels. The best outcomes occur when your pulse pressure decreases (indicating improving arterial flexibility) while your overall pressure also comes down to a healthy range.
+
+            The Bottom Line
+
+            Your pulse pressure provides a window into the health and flexibility of your blood vessels. When tracked over time alongside your overall blood pressure, it helps your doctor understand not just where your numbers are, but which direction your vascular health is heading.
+
+            The ideal pattern is decreasing pulse pressure (improving arterial flexibility) combined with decreasing or stable blood pressure in the healthy range. Rising pulse pressure, especially when combined with increasing overall pressure, signals progressive arterial stiffening that requires attention.
+            """,
+        clinicalRelevance: "Understanding how your blood pressure trends change over time—not just single readings—provides crucial insight into your vascular health trajectory. Improving trends suggest your lifestyle changes or treatments are working; worsening trends signal a need for intervention.",
+        references: [
+            Reference(
+                title: "Circulation Research: Arterial Stiffness and CV Health",
+                url: URL(string: "https://doi.org/10.1161/CIRCRESAHA.121.318061")!
+            ),
+            Reference(
+                title: "JACC: Arterial Stiffness Mechanisms",
+                url: URL(string: "https://doi.org/10.1016/j.jacc.2019.07.012")!
+            ),
+            Reference(
+                title: "Hypertension: Pulse Pressure as Stiffness Indicator",
+                url: URL(string: "https://doi.org/10.1161/HYPERTENSIONAHA.118.12289")!
+            ),
+            Reference(
+                title: "Lancet: BP and Cardiovascular Disease Risk",
+                url: URL(string: "https://doi.org/10.1016/S0140-6736(14)60685-1")!
+            ),
+            Reference(
+                title: "JAMA: Blood Pressure Thresholds and Mortality",
+                url: URL(string: "https://doi.org/10.1001/jama.2019.9811")!
+            ),
+            Reference(
+                title: "BMJ: Antihypertensive Treatment Effects",
+                url: URL(string: "https://doi.org/10.1136/bmj.n189")!
+            )
+        ]
+    )
+
     static let understandingPulsePressure = HelpTopic(
         title: "Understanding Your Pulse Pressure",
         shortDescription: "What pulse pressure tells you about heart health",
@@ -531,7 +650,7 @@ extension HelpContent {
         TutorialSection(
             title: "Understanding Your Results",
             icon: "lightbulb.fill",
-            topics: [understandingPulsePressure]
+            topics: [understandingPulsePressure, interpretingTrends]
         ),
         TutorialSection(
             title: "Blood Pressure Basics",

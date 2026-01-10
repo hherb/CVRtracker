@@ -25,6 +25,53 @@ struct DashboardView: View {
         Array(readings.prefix(7)).reversed()
     }
 
+    // MARK: - Trend Analysis for Dashboard
+
+    /// Readings for trend analysis (last 14 readings)
+    private var trendReadings: [BPReading] {
+        Array(readings.prefix(14))
+    }
+
+    /// Can we show trend interpretation?
+    private var canShowTrendInterpretation: Bool {
+        trendReadings.count >= 4
+    }
+
+    /// Pulse pressure trend direction
+    private var dashboardPPTrend: TrendDirection {
+        guard trendReadings.count >= 4 else { return .insufficient }
+        let firstHalf = Array(trendReadings.suffix(trendReadings.count / 2))
+        let secondHalf = Array(trendReadings.prefix(trendReadings.count / 2))
+
+        let firstAvg = firstHalf.reduce(0) { $0 + Double($1.pulsePressure) } / Double(firstHalf.count)
+        let secondAvg = secondHalf.reduce(0) { $0 + Double($1.pulsePressure) } / Double(secondHalf.count)
+
+        let change = secondAvg - firstAvg
+        if change < -2 { return .decreasing }
+        else if change > 2 { return .increasing }
+        else { return .stable }
+    }
+
+    /// Mean arterial pressure trend direction
+    private var dashboardMAPTrend: TrendDirection {
+        guard trendReadings.count >= 4 else { return .insufficient }
+        let firstHalf = Array(trendReadings.suffix(trendReadings.count / 2))
+        let secondHalf = Array(trendReadings.prefix(trendReadings.count / 2))
+
+        let firstAvg = firstHalf.reduce(0) { $0 + $1.meanArterialPressure } / Double(firstHalf.count)
+        let secondAvg = secondHalf.reduce(0) { $0 + $1.meanArterialPressure } / Double(secondHalf.count)
+
+        let change = secondAvg - firstAvg
+        if change < -3 { return .decreasing }
+        else if change > 3 { return .increasing }
+        else { return .stable }
+    }
+
+    /// Combined trend interpretation
+    private var dashboardTrendInterpretation: TrendInterpretation {
+        TrendInterpretation.interpret(ppTrend: dashboardPPTrend, mapTrend: dashboardMAPTrend)
+    }
+
     private var canShowRisk: Bool {
         guard let profile = profile else { return false }
         return profile.age >= 30 && profile.age <= 79 &&
@@ -42,6 +89,11 @@ struct DashboardView: View {
                     // Mini Trend Chart
                     if recentReadings.count >= 2 {
                         miniTrendChart
+                    }
+
+                    // Trend Interpretation
+                    if canShowTrendInterpretation {
+                        trendInterpretationCard
                     }
 
                     // Risk Scores
@@ -263,6 +315,79 @@ struct DashboardView: View {
         .background(Color(.systemBackground))
         .cornerRadius(16)
         .shadow(color: .black.opacity(0.05), radius: 10)
+    }
+
+    private var trendInterpretationCard: some View {
+        let interp = dashboardTrendInterpretation
+
+        return VStack(alignment: .leading, spacing: 10) {
+            HStack {
+                Image(systemName: trendIcon(for: interp.category))
+                    .foregroundColor(interp.color)
+                    .font(.title3)
+
+                Text(interp.title)
+                    .font(.subheadline)
+                    .fontWeight(.semibold)
+                    .foregroundColor(interp.color)
+
+                Spacer()
+
+                InfoButton(topic: HelpContent.interpretingTrends)
+            }
+
+            Text(interp.description)
+                .font(.caption)
+                .foregroundColor(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+
+            // Compact trend indicators
+            HStack(spacing: 16) {
+                dashboardTrendIndicator(label: "PP", trend: dashboardPPTrend)
+                dashboardTrendIndicator(label: "MAP", trend: dashboardMAPTrend)
+                Spacer()
+                Text("\(trendReadings.count) readings")
+                    .font(.caption2)
+                    .foregroundColor(.secondary)
+            }
+        }
+        .padding()
+        .background(Color(.systemBackground))
+        .cornerRadius(16)
+        .shadow(color: .black.opacity(0.05), radius: 10)
+    }
+
+    private func dashboardTrendIndicator(label: String, trend: TrendDirection) -> some View {
+        HStack(spacing: 4) {
+            Text(label)
+                .font(.caption2)
+                .foregroundColor(.secondary)
+            Text(trend.symbol)
+                .font(.caption)
+                .fontWeight(.bold)
+                .foregroundColor(dashboardColorForTrend(trend))
+        }
+    }
+
+    private func dashboardColorForTrend(_ trend: TrendDirection) -> Color {
+        switch trend {
+        case .increasing: return .red
+        case .stable: return .blue
+        case .decreasing: return .green
+        case .insufficient: return .secondary
+        }
+    }
+
+    private func trendIcon(for category: TrendInterpretation.Category) -> String {
+        switch category {
+        case .bestScenario: return "star.fill"
+        case .good: return "checkmark.circle.fill"
+        case .neutral: return "equal.circle.fill"
+        case .needsAttention: return "exclamationmark.circle.fill"
+        case .concerning: return "exclamationmark.triangle.fill"
+        case .mostConcerning: return "exclamationmark.octagon.fill"
+        case .insufficient: return "questionmark.circle"
+        }
     }
 
     private func riskScoresCard(profile: UserProfile, lipid: LipidReading, systolic: Int) -> some View {
