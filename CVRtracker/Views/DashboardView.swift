@@ -290,8 +290,12 @@ struct DashboardView: View {
 
     private var miniTrendChart: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("Recent Trend")
-                .font(.headline)
+            HStack {
+                Text("Recent Trend")
+                    .font(.headline)
+                Spacer()
+                InfoButton(topic: HelpContent.interpretingTrends)
+            }
 
             Chart {
                 ForEach(recentReadings, id: \.id) { reading in
@@ -310,6 +314,12 @@ struct DashboardView: View {
             }
             .chartYScale(domain: 0.3...0.6)
             .frame(height: 150)
+
+            // Brief clinical relevance explanation
+            Text("Fractional Pulse Pressure (fPP) reflects arterial stiffness. Values below 0.40 indicate healthy, elastic arteries. Rising trends may suggest progressive vascular stiffening.")
+                .font(.caption)
+                .foregroundColor(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
         }
         .padding()
         .background(Color(.systemBackground))

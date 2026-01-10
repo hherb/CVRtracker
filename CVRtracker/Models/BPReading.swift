@@ -147,6 +147,22 @@ enum BPCategory: String, CaseIterable {
         }
     }
 
+    /// Threshold range hint with values in mmHg
+    var thresholdHint: String {
+        switch self {
+        case .normal:
+            return "< 120/80 mmHg"
+        case .elevated:
+            return "120–129 / < 80 mmHg"
+        case .hypertensionStage1:
+            return "130–139 / 80–89 mmHg"
+        case .hypertensionStage2:
+            return "140–179 / 90–119 mmHg"
+        case .hypertensiveCrisis:
+            return "≥ 180 / ≥ 120 mmHg"
+        }
+    }
+
     /// Color for UI display
     var color: Color {
         switch self {

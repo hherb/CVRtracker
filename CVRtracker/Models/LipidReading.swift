@@ -186,9 +186,9 @@ enum TotalCholesterolCategory: String {
 
     var hint: String {
         switch self {
-        case .desirable: return "Desirable range"
-        case .borderline: return "Borderline high"
-        case .high: return "High – discuss with doctor"
+        case .desirable: return "< 5.2 mmol/L (200 mg/dL) – Desirable"
+        case .borderline: return "5.2–6.2 mmol/L (200–239 mg/dL) – Borderline"
+        case .high: return "> 6.2 mmol/L (240 mg/dL) – High, discuss with doctor"
         }
     }
 
@@ -220,9 +220,9 @@ enum HDLCholesterolCategory: String {
 
     var hint: String {
         switch self {
-        case .low: return "Low – CV risk factor"
-        case .acceptable: return "Acceptable level"
-        case .optimal: return "Optimal – protective"
+        case .low: return "< 1.0 mmol/L (40 mg/dL) – Low, CV risk factor"
+        case .acceptable: return "1.0–1.5 mmol/L (40–59 mg/dL) – Acceptable"
+        case .optimal: return "> 1.6 mmol/L (60 mg/dL) – Optimal, protective"
         }
     }
 
@@ -258,11 +258,11 @@ enum LDLCholesterolCategory: String {
 
     var hint: String {
         switch self {
-        case .optimal: return "Optimal"
-        case .nearOptimal: return "Near optimal"
-        case .borderline: return "Borderline high"
-        case .high: return "High"
-        case .veryHigh: return "Very high – treat"
+        case .optimal: return "< 2.6 mmol/L (100 mg/dL) – Optimal"
+        case .nearOptimal: return "2.6–3.3 mmol/L (100–129 mg/dL) – Near optimal"
+        case .borderline: return "3.4–4.1 mmol/L (130–159 mg/dL) – Borderline"
+        case .high: return "4.1–4.9 mmol/L (160–189 mg/dL) – High"
+        case .veryHigh: return "> 4.9 mmol/L (190 mg/dL) – Very high, treat"
         }
     }
 
@@ -300,10 +300,10 @@ enum TriglyceridesCategory: String {
 
     var hint: String {
         switch self {
-        case .normal: return "Normal"
-        case .borderline: return "Borderline high"
-        case .high: return "High"
-        case .veryHigh: return "Very high – treat"
+        case .normal: return "< 1.7 mmol/L (150 mg/dL) – Normal"
+        case .borderline: return "1.7–2.2 mmol/L (150–199 mg/dL) – Borderline"
+        case .high: return "2.3–5.6 mmol/L (200–499 mg/dL) – High"
+        case .veryHigh: return "> 5.6 mmol/L (500 mg/dL) – Very high, treat"
         }
     }
 
