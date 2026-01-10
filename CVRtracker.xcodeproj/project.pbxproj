@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6F1031D32F1230EA00A5B666 /* CVRtrackerTestsCVRtrackerSchemaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F1031D22F1230EA00A5B666 /* CVRtrackerTestsCVRtrackerSchemaTests.swift */; };
+		6F1031D52F1230EA00A5B666 /* CVRtrackerTestsHealthKitManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F1031D42F1230EA00A5B666 /* CVRtrackerTestsHealthKitManagerTests.swift */; };
+		6F1031D72F1230EA00A5B666 /* CVRtrackerTestsModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F1031D62F1230EA00A5B666 /* CVRtrackerTestsModelTests.swift */; };
+		6F1031D92F1230EA00A5B666 /* CVRtrackerTestsAppLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F1031D82F1230EA00A5B666 /* CVRtrackerTestsAppLaunchTests.swift */; };
+		6F1031DB2F1230EA00A5B666 /* CVRtrackerTestsDateExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F1031DA2F1230EA00A5B666 /* CVRtrackerTestsDateExtensionsTests.swift */; };
+		6F1031DD2F1230EA00A5B666 /* CVRtrackerTestsValidationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F1031DC2F1230EA00A5B666 /* CVRtrackerTestsValidationTests.swift */; };
 		B80000001234567800000001 /* CVRtrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80000011234567800000001 /* CVRtrackerApp.swift */; };
 		B80000021234567800000002 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80000031234567800000002 /* ContentView.swift */; };
 		B80000041234567800000003 /* BPReading.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80000051234567800000003 /* BPReading.swift */; };
@@ -30,6 +36,12 @@
 
 /* Begin PBXFileReference section */
 		6F1031D12F11D49800A5B666 /* CVRtracker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CVRtracker.entitlements; sourceTree = "<group>"; };
+		6F1031D22F1230EA00A5B666 /* CVRtrackerTestsCVRtrackerSchemaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CVRtrackerTestsCVRtrackerSchemaTests.swift; sourceTree = "<group>"; };
+		6F1031D42F1230EA00A5B666 /* CVRtrackerTestsHealthKitManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CVRtrackerTestsHealthKitManagerTests.swift; sourceTree = "<group>"; };
+		6F1031D62F1230EA00A5B666 /* CVRtrackerTestsModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CVRtrackerTestsModelTests.swift; sourceTree = "<group>"; };
+		6F1031D82F1230EA00A5B666 /* CVRtrackerTestsAppLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CVRtrackerTestsAppLaunchTests.swift; sourceTree = "<group>"; };
+		6F1031DA2F1230EA00A5B666 /* CVRtrackerTestsDateExtensionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CVRtrackerTestsDateExtensionsTests.swift; sourceTree = "<group>"; };
+		6F1031DC2F1230EA00A5B666 /* CVRtrackerTestsValidationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CVRtrackerTestsValidationTests.swift; sourceTree = "<group>"; };
 		B80000011234567800000001 /* CVRtrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CVRtrackerApp.swift; sourceTree = "<group>"; };
 		B80000031234567800000002 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B80000051234567800000003 /* BPReading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPReading.swift; sourceTree = "<group>"; };
@@ -80,6 +92,12 @@
 				B80000441234567800000034 /* Views */,
 				B80000451234567800000035 /* Services */,
 				B8000017123456780000000C /* Assets.xcassets */,
+				6F1031D22F1230EA00A5B666 /* CVRtrackerTestsCVRtrackerSchemaTests.swift */,
+				6F1031D42F1230EA00A5B666 /* CVRtrackerTestsHealthKitManagerTests.swift */,
+				6F1031D62F1230EA00A5B666 /* CVRtrackerTestsModelTests.swift */,
+				6F1031D82F1230EA00A5B666 /* CVRtrackerTestsAppLaunchTests.swift */,
+				6F1031DA2F1230EA00A5B666 /* CVRtrackerTestsDateExtensionsTests.swift */,
+				6F1031DC2F1230EA00A5B666 /* CVRtrackerTestsValidationTests.swift */,
 			);
 			path = CVRtracker;
 			sourceTree = "<group>";
@@ -203,18 +221,24 @@
 				B80000021234567800000002 /* ContentView.swift in Sources */,
 				B80000041234567800000003 /* BPReading.swift in Sources */,
 				B80000061234567800000004 /* UserProfile.swift in Sources */,
+				6F1031D32F1230EA00A5B666 /* CVRtrackerTestsCVRtrackerSchemaTests.swift in Sources */,
 				B80000081234567800000005 /* Calculations.swift in Sources */,
 				B800000A1234567800000006 /* DashboardView.swift in Sources */,
+				6F1031D52F1230EA00A5B666 /* CVRtrackerTestsHealthKitManagerTests.swift in Sources */,
 				B800000C1234567800000007 /* BPEntryView.swift in Sources */,
 				B800000E1234567800000008 /* HistoryView.swift in Sources */,
 				B80000101234567800000009 /* TrendChartView.swift in Sources */,
 				B8000012123456780000000A /* ProfileView.swift in Sources */,
+				6F1031D72F1230EA00A5B666 /* CVRtrackerTestsModelTests.swift in Sources */,
+				6F1031D92F1230EA00A5B666 /* CVRtrackerTestsAppLaunchTests.swift in Sources */,
 				B8000014123456780000000B /* RiskResultView.swift in Sources */,
+				6F1031DD2F1230EA00A5B666 /* CVRtrackerTestsValidationTests.swift in Sources */,
 				B8000018123456780000000D /* LipidReading.swift in Sources */,
 				B800001A123456780000000E /* LipidEntryView.swift in Sources */,
 				B800001C123456780000000F /* LipidHistoryView.swift in Sources */,
 				B800001E1234567800000010 /* SchemaVersioning.swift in Sources */,
 				B80000201234567800000011 /* HelpContent.swift in Sources */,
+				6F1031DB2F1230EA00A5B666 /* CVRtrackerTestsDateExtensionsTests.swift in Sources */,
 				B80000221234567800000012 /* TutorialView.swift in Sources */,
 				B80000241234567800000013 /* HealthKitManager.swift in Sources */,
 			);
