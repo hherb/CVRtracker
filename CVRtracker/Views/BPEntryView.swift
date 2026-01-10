@@ -4,6 +4,8 @@ import SwiftData
 struct BPEntryView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject private var healthKitManager: HealthKitManager
+    @Query private var profiles: [UserProfile]
 
     @State private var systolic: Int = 120
     @State private var diastolic: Int = 80
@@ -27,6 +29,10 @@ struct BPEntryView: View {
 
     private var isValidReading: Bool {
         systolic > diastolic && systolic >= 70 && systolic <= 250 && diastolic >= 40 && diastolic <= 150
+    }
+
+    private var healthKitEnabled: Bool {
+        profiles.first?.healthKitEnabled ?? false
     }
 
     var body: some View {
@@ -139,6 +145,21 @@ struct BPEntryView: View {
             print("Failed to save BP reading: \(error)")
         }
 
+        // Export to HealthKit if enabled
+        if healthKitEnabled && healthKitManager.isAvailable {
+            Task {
+                do {
+                    try await healthKitManager.saveBPReading(
+                        systolic: systolic,
+                        diastolic: diastolic,
+                        timestamp: timestamp
+                    )
+                } catch {
+                    print("Failed to save to HealthKit: \(error)")
+                }
+            }
+        }
+
         // Haptic feedback
         let generator = UINotificationFeedbackGenerator()
         generator.notificationOccurred(.success)
@@ -177,5 +198,6 @@ struct BPEntryView: View {
 
 #Preview {
     BPEntryView()
-        .modelContainer(for: BPReading.self, inMemory: true)
+        .environmentObject(HealthKitManager())
+        .modelContainer(for: [BPReading.self, UserProfile.self], inMemory: true)
 }

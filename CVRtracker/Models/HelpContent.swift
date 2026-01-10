@@ -325,6 +325,25 @@ struct HelpContent {
             """,
         clinicalRelevance: "Diabetes is considered a \"coronary heart disease equivalent\" - diabetics without prior heart disease have similar risk to non-diabetics who have had a heart attack."
     )
+
+    // MARK: - Apple Health Integration
+
+    static let appleHealthIntegration = HelpTopic(
+        title: "Apple Health Integration",
+        shortDescription: "Sync blood pressure with Apple Health",
+        detailedDescription: """
+            When enabled, CVR Tracker can sync with Apple Health:
+
+            Export: Your blood pressure readings are saved to Apple Health, making them available to other health apps.
+
+            Import: Blood pressure readings from other apps and devices (like smart BP monitors) are imported into CVR Tracker.
+
+            Heart Rate: Your latest heart rate from Apple Watch or other devices is displayed on the dashboard.
+
+            Note: Lipid/cholesterol data is not supported by Apple Health and remains stored only in this app.
+            """,
+        clinicalRelevance: "Syncing health data between apps and devices provides a more complete picture of your cardiovascular health over time and enables better tracking of trends."
+    )
 }
 
 /// A single educational topic with layered information depth.

@@ -3,6 +3,7 @@ import SwiftData
 
 struct ProfileView: View {
     @Environment(\.modelContext) private var modelContext
+    @EnvironmentObject private var healthKitManager: HealthKitManager
     @Query private var profiles: [UserProfile]
     @Query(sort: \BPReading.timestamp, order: .reverse) private var readings: [BPReading]
     @Query(sort: \LipidReading.timestamp, order: .reverse) private var lipidReadings: [LipidReading]
@@ -14,6 +15,7 @@ struct ProfileView: View {
     @State private var hasDiabetes: Bool = false
     @State private var cholesterolUnit: CholesterolUnit = .mgdL
     @State private var triglycerideUnit: TriglycerideUnit = .mgdL
+    @State private var healthKitEnabled: Bool = false
 
     @State private var showingRiskResult = false
 
@@ -92,6 +94,52 @@ struct ProfileView: View {
                     Text("Unit Preferences")
                 } footer: {
                     Text("Choose your preferred units for lipid values. Values are converted automatically.")
+                }
+
+                if healthKitManager.isAvailable {
+                    Section {
+                        HStack {
+                            Toggle("Apple Health Sync", isOn: $healthKitEnabled)
+                                .onChange(of: healthKitEnabled) { _, newValue in
+                                    Task {
+                                        await handleHealthKitToggle(enabled: newValue)
+                                    }
+                                }
+                            InfoButton(topic: HelpContent.appleHealthIntegration)
+                        }
+
+                        if healthKitEnabled {
+                            HStack {
+                                Text("Status")
+                                Spacer()
+                                syncStatusView
+                            }
+
+                            Button("Sync Now") {
+                                Task {
+                                    await healthKitManager.syncBPReadings(with: modelContext)
+                                }
+                            }
+                            .disabled(healthKitManager.syncStatus == .syncing)
+
+                            if let heartRate = healthKitManager.latestHeartRate {
+                                HStack {
+                                    Label("Heart Rate", systemImage: "heart.fill")
+                                        .foregroundColor(.red)
+                                    Spacer()
+                                    Text("\(heartRate.bpm) BPM")
+                                        .foregroundColor(.secondary)
+                                    Text(heartRate.timestamp, style: .relative)
+                                        .font(.caption)
+                                        .foregroundColor(.secondary)
+                                }
+                            }
+                        }
+                    } header: {
+                        Text("Apple Health")
+                    } footer: {
+                        Text("Sync blood pressure readings with Apple Health. Heart rate is read-only from Apple Watch or other devices.")
+                    }
                 }
 
                 if let lipid = latestLipidReading {
@@ -179,6 +227,7 @@ struct ProfileView: View {
             hasDiabetes = existing.hasDiabetes
             cholesterolUnit = existing.cholesterolUnit
             triglycerideUnit = existing.triglycerideUnit
+            healthKitEnabled = existing.healthKitEnabled
         }
     }
 
@@ -191,6 +240,7 @@ struct ProfileView: View {
             existing.hasDiabetes = hasDiabetes
             existing.cholesterolUnit = cholesterolUnit
             existing.triglycerideUnit = triglycerideUnit
+            existing.healthKitEnabled = healthKitEnabled
         } else {
             let newProfile = UserProfile(
                 age: age,
@@ -203,6 +253,7 @@ struct ProfileView: View {
                 cholesterolUnit: cholesterolUnit,
                 triglycerideUnit: triglycerideUnit
             )
+            newProfile.healthKitEnabled = healthKitEnabled
             modelContext.insert(newProfile)
         }
 
@@ -211,6 +262,44 @@ struct ProfileView: View {
             try modelContext.save()
         } catch {
             print("Failed to save profile: \(error)")
+        }
+    }
+
+    private func handleHealthKitToggle(enabled: Bool) async {
+        if enabled {
+            let authorized = await healthKitManager.requestAuthorization()
+            if authorized {
+                saveProfile()
+                await healthKitManager.syncBPReadings(with: modelContext)
+            } else {
+                healthKitEnabled = false
+            }
+        } else {
+            saveProfile()
+        }
+    }
+
+    @ViewBuilder
+    private var syncStatusView: some View {
+        switch healthKitManager.syncStatus {
+        case .idle:
+            Text("Ready")
+                .foregroundColor(.secondary)
+        case .syncing:
+            ProgressView()
+                .controlSize(.small)
+        case .completed(let count):
+            if count > 0 {
+                Text("\(count) imported")
+                    .foregroundColor(.green)
+            } else {
+                Text("Up to date")
+                    .foregroundColor(.green)
+            }
+        case .error(let message):
+            Text(message)
+                .foregroundColor(.red)
+                .font(.caption)
         }
     }
 
@@ -231,5 +320,6 @@ struct ProfileView: View {
 
 #Preview {
     ProfileView()
+        .environmentObject(HealthKitManager())
         .modelContainer(for: [UserProfile.self, BPReading.self, LipidReading.self], inMemory: true)
 }

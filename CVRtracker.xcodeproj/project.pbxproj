@@ -25,9 +25,11 @@
 		B800001E1234567800000010 /* SchemaVersioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = B800001F1234567800000010 /* SchemaVersioning.swift */; };
 		B80000201234567800000011 /* HelpContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80000211234567800000011 /* HelpContent.swift */; };
 		B80000221234567800000012 /* TutorialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80000231234567800000012 /* TutorialView.swift */; };
+		B80000241234567800000013 /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80000251234567800000013 /* HealthKitManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6F1031D12F11D49800A5B666 /* CVRtracker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CVRtracker.entitlements; sourceTree = "<group>"; };
 		B80000011234567800000001 /* CVRtrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CVRtrackerApp.swift; sourceTree = "<group>"; };
 		B80000031234567800000002 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B80000051234567800000003 /* BPReading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPReading.swift; sourceTree = "<group>"; };
@@ -44,9 +46,10 @@
 		B800001B123456780000000E /* LipidEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LipidEntryView.swift; sourceTree = "<group>"; };
 		B800001D123456780000000F /* LipidHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LipidHistoryView.swift; sourceTree = "<group>"; };
 		B800001F1234567800000010 /* SchemaVersioning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchemaVersioning.swift; sourceTree = "<group>"; };
+		B80000201234567800000010 /* CVRtracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CVRtracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B80000211234567800000011 /* HelpContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpContent.swift; sourceTree = "<group>"; };
 		B80000231234567800000012 /* TutorialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialView.swift; sourceTree = "<group>"; };
-		B80000201234567800000010 /* CVRtracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CVRtracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B80000251234567800000013 /* HealthKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,9 +74,11 @@
 		B80000411234567800000031 /* CVRtracker */ = {
 			isa = PBXGroup;
 			children = (
+				6F1031D12F11D49800A5B666 /* CVRtracker.entitlements */,
 				B80000011234567800000001 /* CVRtrackerApp.swift */,
 				B80000431234567800000033 /* Models */,
 				B80000441234567800000034 /* Views */,
+				B80000451234567800000035 /* Services */,
 				B8000017123456780000000C /* Assets.xcassets */,
 			);
 			path = CVRtracker;
@@ -115,6 +120,14 @@
 				B80000231234567800000012 /* TutorialView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		B80000451234567800000035 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				B80000251234567800000013 /* HealthKitManager.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -203,6 +216,7 @@
 				B800001E1234567800000010 /* SchemaVersioning.swift in Sources */,
 				B80000201234567800000011 /* HelpContent.swift in Sources */,
 				B80000221234567800000012 /* TutorialView.swift in Sources */,
+				B80000241234567800000013 /* HealthKitManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -337,12 +351,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = CVRtracker/CVRtracker.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "CVR Tracker";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.medical";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "CVR Tracker reads blood pressure and heart rate data from Apple Health to provide a complete view of your cardiovascular health.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "CVR Tracker saves your blood pressure readings to Apple Health so they're available in other health apps.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -366,12 +384,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = CVRtracker/CVRtracker.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "CVR Tracker";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.medical";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "CVR Tracker reads blood pressure and heart rate data from Apple Health to provide a complete view of your cardiovascular health.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "CVR Tracker saves your blood pressure readings to Apple Health so they're available in other health apps.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

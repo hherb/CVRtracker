@@ -128,8 +128,12 @@ struct RiskResultView: View {
                 summaryRow(label: "Age", value: "\(profile.age) years")
                 summaryRow(label: "Sex", value: profile.sex.rawValue)
                 summaryRow(label: "Blood Pressure", value: "\(systolicBP) mmHg (systolic)")
-                summaryRow(label: "Total Cholesterol", value: "\(Int(profile.totalCholesterol)) mg/dL")
-                summaryRow(label: "HDL Cholesterol", value: "\(Int(profile.hdlCholesterol)) mg/dL")
+                summaryRow(label: "Total Cholesterol", value: String(format: "%.0f %@",
+                    profile.cholesterolUnit.fromMgdL(profile.totalCholesterol),
+                    profile.cholesterolUnit.rawValue))
+                summaryRow(label: "HDL Cholesterol", value: String(format: "%.0f %@",
+                    profile.cholesterolUnit.fromMgdL(profile.hdlCholesterol),
+                    profile.cholesterolUnit.rawValue))
                 summaryRow(label: "BP Medication", value: profile.onHypertensionTreatment ? "Yes" : "No")
                 summaryRow(label: "Smoker", value: profile.isSmoker ? "Yes" : "No")
                 summaryRow(label: "Diabetes", value: profile.hasDiabetes ? "Yes" : "No")

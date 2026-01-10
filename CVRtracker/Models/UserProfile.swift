@@ -131,6 +131,9 @@ final class UserProfile {
     /// Raw string storage for triglyceride unit preference (for SwiftData compatibility)
     var triglycerideUnitRaw: String?
 
+    /// Whether HealthKit integration is enabled (optional for migration compatibility)
+    var healthKitEnabledRaw: Bool?
+
     /// User's preferred unit for displaying cholesterol values.
     ///
     /// Stored as optional raw string for migration compatibility.
@@ -147,6 +150,12 @@ final class UserProfile {
     var triglycerideUnit: TriglycerideUnit {
         get { TriglycerideUnit(rawValue: triglycerideUnitRaw ?? "mg/dL") ?? .mgdL }
         set { triglycerideUnitRaw = newValue.rawValue }
+    }
+
+    /// Whether to sync with Apple Health. Defaults to false.
+    var healthKitEnabled: Bool {
+        get { healthKitEnabledRaw ?? false }
+        set { healthKitEnabledRaw = newValue }
     }
 
     /// Creates a new user profile with the specified health information.

@@ -4,6 +4,7 @@ import Charts
 
 struct DashboardView: View {
     @Environment(\.modelContext) private var modelContext
+    @EnvironmentObject private var healthKitManager: HealthKitManager
     @Query(sort: \BPReading.timestamp, order: .reverse) private var readings: [BPReading]
     @Query(sort: \LipidReading.timestamp, order: .reverse) private var lipidReadings: [LipidReading]
     @Query private var profiles: [UserProfile]
@@ -48,6 +49,11 @@ struct DashboardView: View {
                         riskScoresCard(profile: profile, lipid: lipid, systolic: reading.systolic)
                     } else {
                         setupPromptCard
+                    }
+
+                    // Heart Rate from HealthKit
+                    if let heartRate = healthKitManager.latestHeartRate {
+                        heartRateCard(heartRate: heartRate)
                     }
 
                     // Latest Reading
@@ -255,6 +261,33 @@ struct DashboardView: View {
         .shadow(color: .black.opacity(0.05), radius: 10)
     }
 
+    private func heartRateCard(heartRate: HeartRateReading) -> some View {
+        VStack(spacing: 8) {
+            HStack(spacing: 6) {
+                Image(systemName: "heart.fill")
+                    .foregroundColor(.red)
+                Text("Heart Rate")
+                    .font(.headline)
+            }
+
+            Text("\(heartRate.bpm)")
+                .font(.system(size: 40, weight: .bold, design: .rounded))
+
+            Text("BPM")
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+
+            Text(heartRate.timestamp, style: .relative)
+                .font(.caption)
+                .foregroundColor(.secondary)
+        }
+        .padding()
+        .frame(maxWidth: .infinity)
+        .background(Color(.systemBackground))
+        .cornerRadius(16)
+        .shadow(color: .black.opacity(0.05), radius: 10)
+    }
+
     private func colorForFPP(_ fpp: Double) -> Color {
         if fpp < 0.4 {
             return .green
@@ -276,5 +309,6 @@ struct DashboardView: View {
 
 #Preview {
     DashboardView()
+        .environmentObject(HealthKitManager())
         .modelContainer(for: [BPReading.self, UserProfile.self, LipidReading.self], inMemory: true)
 }
