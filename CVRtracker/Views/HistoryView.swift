@@ -6,6 +6,7 @@ struct HistoryView: View {
     @Query(sort: \BPReading.timestamp, order: .reverse) private var readings: [BPReading]
 
     @State private var showingTrendChart = false
+    @State private var readingToEdit: BPReading?
 
     var body: some View {
         NavigationStack {
@@ -31,6 +32,20 @@ struct HistoryView: View {
             .sheet(isPresented: $showingTrendChart) {
                 TrendChartView()
             }
+            .sheet(item: $readingToEdit) { reading in
+                NavigationStack {
+                    BPEntryView(readingToEdit: reading)
+                        .navigationTitle("Edit Reading")
+                        .navigationBarTitleDisplayMode(.inline)
+                        .toolbar {
+                            ToolbarItem(placement: .cancellationAction) {
+                                Button("Cancel") {
+                                    readingToEdit = nil
+                                }
+                            }
+                        }
+                }
+            }
         }
     }
 
@@ -46,8 +61,25 @@ struct HistoryView: View {
         List {
             ForEach(readings) { reading in
                 ReadingRow(reading: reading)
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        readingToEdit = reading
+                    }
+                    .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                        Button(role: .destructive) {
+                            modelContext.delete(reading)
+                        } label: {
+                            Label("Delete", systemImage: "trash")
+                        }
+
+                        Button {
+                            readingToEdit = reading
+                        } label: {
+                            Label("Edit", systemImage: "pencil")
+                        }
+                        .tint(.blue)
+                    }
             }
-            .onDelete(perform: deleteReadings)
         }
         .listStyle(.insetGrouped)
     }

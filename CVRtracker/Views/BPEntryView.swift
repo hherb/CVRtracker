@@ -7,6 +7,9 @@ struct BPEntryView: View {
     @EnvironmentObject private var healthKitManager: HealthKitManager
     @Query private var profiles: [UserProfile]
 
+    /// Optional reading to edit; if nil, creates a new reading
+    var readingToEdit: BPReading?
+
     @State private var systolic: Int = 120
     @State private var diastolic: Int = 80
     @State private var systolicText: String = "120"
@@ -14,6 +17,8 @@ struct BPEntryView: View {
     @State private var timestamp: Date = Date()
     @State private var showingSavedAlert = false
     @FocusState private var focusedField: Field?
+
+    private var isEditMode: Bool { readingToEdit != nil }
 
     enum Field {
         case systolic, diastolic
@@ -38,6 +43,15 @@ struct BPEntryView: View {
     var body: some View {
         Form {
             Section {
+                if isEditMode {
+                    HStack {
+                        Spacer()
+                        Text("Editing Reading")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                        Spacer()
+                    }
+                }
                 HStack(spacing: 4) {
                     Spacer()
                     TextField("120", text: $systolicText)
@@ -109,12 +123,33 @@ struct BPEntryView: View {
                 Button(action: saveReading) {
                     HStack {
                         Spacer()
-                        Label("Save", systemImage: "checkmark.circle.fill")
+                        Label(isEditMode ? "Update" : "Save", systemImage: "checkmark.circle.fill")
                             .font(.headline)
                         Spacer()
                     }
                 }
                 .disabled(!isValidReading)
+
+                if isEditMode {
+                    Button(role: .destructive) {
+                        deleteReading()
+                    } label: {
+                        HStack {
+                            Spacer()
+                            Label("Delete Reading", systemImage: "trash")
+                            Spacer()
+                        }
+                    }
+                }
+            }
+        }
+        .onAppear {
+            if let reading = readingToEdit {
+                systolic = reading.systolic
+                diastolic = reading.diastolic
+                systolicText = String(reading.systolic)
+                diastolicText = String(reading.diastolic)
+                timestamp = reading.timestamp
             }
         }
         .toolbar {
@@ -125,18 +160,45 @@ struct BPEntryView: View {
                 }
             }
         }
-        .alert("Reading Saved", isPresented: $showingSavedAlert) {
+        .alert(isEditMode ? "Reading Updated" : "Reading Saved", isPresented: $showingSavedAlert) {
             Button("OK", role: .cancel) {
-                resetForm()
+                if isEditMode {
+                    dismiss()
+                } else {
+                    resetForm()
+                }
             }
         } message: {
-            Text("Your blood pressure reading has been saved.")
+            Text(isEditMode ? "Your blood pressure reading has been updated." : "Your blood pressure reading has been saved.")
         }
     }
 
     private func saveReading() {
-        let reading = BPReading(systolic: systolic, diastolic: diastolic, timestamp: timestamp)
-        modelContext.insert(reading)
+        if let reading = readingToEdit {
+            // Update existing reading
+            reading.systolic = systolic
+            reading.diastolic = diastolic
+            reading.timestamp = timestamp
+        } else {
+            // Create new reading
+            let reading = BPReading(systolic: systolic, diastolic: diastolic, timestamp: timestamp)
+            modelContext.insert(reading)
+
+            // Export to HealthKit if enabled (only for new readings)
+            if healthKitEnabled && healthKitManager.isAvailable {
+                Task {
+                    do {
+                        try await healthKitManager.saveBPReading(
+                            systolic: systolic,
+                            diastolic: diastolic,
+                            timestamp: timestamp
+                        )
+                    } catch {
+                        print("Failed to save to HealthKit: \(error)")
+                    }
+                }
+            }
+        }
 
         // Explicitly save to persist immediately
         do {
@@ -145,26 +207,27 @@ struct BPEntryView: View {
             print("Failed to save BP reading: \(error)")
         }
 
-        // Export to HealthKit if enabled
-        if healthKitEnabled && healthKitManager.isAvailable {
-            Task {
-                do {
-                    try await healthKitManager.saveBPReading(
-                        systolic: systolic,
-                        diastolic: diastolic,
-                        timestamp: timestamp
-                    )
-                } catch {
-                    print("Failed to save to HealthKit: \(error)")
-                }
-            }
-        }
-
         // Haptic feedback
         let generator = UINotificationFeedbackGenerator()
         generator.notificationOccurred(.success)
 
         showingSavedAlert = true
+    }
+
+    private func deleteReading() {
+        if let reading = readingToEdit {
+            modelContext.delete(reading)
+            do {
+                try modelContext.save()
+            } catch {
+                print("Failed to delete BP reading: \(error)")
+            }
+
+            let generator = UINotificationFeedbackGenerator()
+            generator.notificationOccurred(.success)
+
+            dismiss()
+        }
     }
 
     private func resetForm() {

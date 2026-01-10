@@ -9,6 +9,7 @@ struct LipidHistoryView: View {
 
     @State private var showingAddLipid = false
     @State private var showingChart = false
+    @State private var readingToEdit: LipidReading?
 
     private var profile: UserProfile? {
         profiles.first
@@ -56,6 +57,9 @@ struct LipidHistoryView: View {
             .sheet(isPresented: $showingChart) {
                 LipidChartView()
             }
+            .sheet(item: $readingToEdit) { reading in
+                LipidEntryView(readingToEdit: reading)
+            }
         }
     }
 
@@ -82,8 +86,25 @@ struct LipidHistoryView: View {
                     cholesterolUnit: cholesterolUnit,
                     triglycerideUnit: triglycerideUnit
                 )
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    readingToEdit = reading
+                }
+                .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                    Button(role: .destructive) {
+                        modelContext.delete(reading)
+                    } label: {
+                        Label("Delete", systemImage: "trash")
+                    }
+
+                    Button {
+                        readingToEdit = reading
+                    } label: {
+                        Label("Edit", systemImage: "pencil")
+                    }
+                    .tint(.blue)
+                }
             }
-            .onDelete(perform: deleteReadings)
         }
         .listStyle(.insetGrouped)
     }

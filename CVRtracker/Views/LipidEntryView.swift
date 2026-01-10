@@ -6,6 +6,9 @@ struct LipidEntryView: View {
     @Environment(\.dismiss) private var dismiss
     @Query private var profiles: [UserProfile]
 
+    /// Optional reading to edit; if nil, creates a new reading
+    var readingToEdit: LipidReading?
+
     @State private var totalCholesterolText: String = ""
     @State private var hdlCholesterolText: String = ""
     @State private var ldlCholesterolText: String = ""
@@ -15,6 +18,9 @@ struct LipidEntryView: View {
     @State private var timestamp: Date = Date()
 
     @State private var showingSaveConfirmation = false
+    @State private var hasLoadedEditValues = false
+
+    private var isEditMode: Bool { readingToEdit != nil }
 
     private var totalCholesterol: Double? {
         Double(totalCholesterolText)
@@ -132,15 +138,27 @@ struct LipidEntryView: View {
                     } label: {
                         HStack {
                             Spacer()
-                            Label("Save Reading", systemImage: "checkmark.circle.fill")
+                            Label(isEditMode ? "Update Reading" : "Save Reading", systemImage: "checkmark.circle.fill")
                                 .font(.headline)
                             Spacer()
                         }
                     }
                     .disabled(!isValidEntry)
+
+                    if isEditMode {
+                        Button(role: .destructive) {
+                            deleteReading()
+                        } label: {
+                            HStack {
+                                Spacer()
+                                Label("Delete Reading", systemImage: "trash")
+                                Spacer()
+                            }
+                        }
+                    }
                 }
             }
-            .navigationTitle("Add Lipids")
+            .navigationTitle(isEditMode ? "Edit Lipids" : "Add Lipids")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -149,14 +167,45 @@ struct LipidEntryView: View {
                     }
                 }
             }
-            .alert("Saved", isPresented: $showingSaveConfirmation) {
+            .alert(isEditMode ? "Updated" : "Saved", isPresented: $showingSaveConfirmation) {
                 Button("OK") {
                     dismiss()
                 }
             } message: {
-                Text("Lipid reading has been saved.")
+                Text(isEditMode ? "Lipid reading has been updated." : "Lipid reading has been saved.")
+            }
+            .onChange(of: profiles) { _, _ in
+                loadEditValuesIfNeeded()
+            }
+            .onAppear {
+                loadEditValuesIfNeeded()
             }
         }
+    }
+
+    private func loadEditValuesIfNeeded() {
+        // Only load once, and only when we have a reading to edit and profile is available
+        guard !hasLoadedEditValues,
+              let reading = readingToEdit,
+              profile != nil else { return }
+
+        hasLoadedEditValues = true
+
+        // Convert from stored mg/dL to display units
+        totalCholesterolText = String(format: "%.1f", reading.displayTotalCholesterol(unit: cholesterolUnit))
+        hdlCholesterolText = String(format: "%.1f", reading.displayHDLCholesterol(unit: cholesterolUnit))
+
+        if let ldl = reading.ldlCholesterol {
+            hasLDL = true
+            ldlCholesterolText = String(format: "%.1f", cholesterolUnit.fromMgdL(ldl))
+        }
+
+        if let trig = reading.triglycerides {
+            hasTriglycerides = true
+            triglyceridesText = String(format: "%.1f", triglycerideUnit.fromMgdL(trig))
+        }
+
+        timestamp = reading.timestamp
     }
 
     private func saveReading() {
@@ -168,15 +217,24 @@ struct LipidEntryView: View {
         let ldlInMgdL: Double? = hasLDL && ldlCholesterol != nil ? cholesterolUnit.toMgdL(ldlCholesterol!) : nil
         let trigInMgdL: Double? = hasTriglycerides && triglycerides != nil ? triglycerideUnit.toMgdL(triglycerides!) : nil
 
-        let reading = LipidReading(
-            totalCholesterol: totalInMgdL,
-            hdlCholesterol: hdlInMgdL,
-            ldlCholesterol: ldlInMgdL,
-            triglycerides: trigInMgdL,
-            timestamp: timestamp
-        )
-
-        modelContext.insert(reading)
+        if let reading = readingToEdit {
+            // Update existing reading
+            reading.totalCholesterol = totalInMgdL
+            reading.hdlCholesterol = hdlInMgdL
+            reading.ldlCholesterol = ldlInMgdL
+            reading.triglycerides = trigInMgdL
+            reading.timestamp = timestamp
+        } else {
+            // Create new reading
+            let reading = LipidReading(
+                totalCholesterol: totalInMgdL,
+                hdlCholesterol: hdlInMgdL,
+                ldlCholesterol: ldlInMgdL,
+                triglycerides: trigInMgdL,
+                timestamp: timestamp
+            )
+            modelContext.insert(reading)
+        }
 
         // Explicitly save to persist immediately
         do {
@@ -186,6 +244,18 @@ struct LipidEntryView: View {
         }
 
         showingSaveConfirmation = true
+    }
+
+    private func deleteReading() {
+        if let reading = readingToEdit {
+            modelContext.delete(reading)
+            do {
+                try modelContext.save()
+            } catch {
+                print("Failed to delete lipid reading: \(error)")
+            }
+            dismiss()
+        }
     }
 }
 

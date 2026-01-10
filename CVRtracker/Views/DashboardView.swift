@@ -21,8 +21,22 @@ struct DashboardView: View {
         lipidReadings.first
     }
 
+    /// Readings for the mini trend chart.
+    /// Ensures at least 3 readings are shown (if available), regardless of time span.
+    /// For charts to be meaningful, we prioritize having enough data points over recency.
     private var recentReadings: [BPReading] {
-        Array(readings.prefix(7)).reversed()
+        // Always include at least 3 readings if available, up to 10 max
+        let minReadings = 3
+        let maxReadings = 10
+
+        // If we have fewer than minReadings, just return what we have
+        guard readings.count >= minReadings else {
+            return readings.reversed()
+        }
+
+        // Return between minReadings and maxReadings, preferring more recent data
+        let count = min(max(readings.count, minReadings), maxReadings)
+        return Array(readings.prefix(count)).reversed()
     }
 
     // MARK: - Trend Analysis for Dashboard
@@ -86,8 +100,8 @@ struct DashboardView: View {
                     // Current fPP Card
                     currentFPPCard
 
-                    // Mini Trend Chart
-                    if recentReadings.count >= 2 {
+                    // Mini Trend Chart (requires at least 3 readings for meaningful trend)
+                    if recentReadings.count >= 3 {
                         miniTrendChart
                     }
 
