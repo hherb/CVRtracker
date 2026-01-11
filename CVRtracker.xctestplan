@@ -1,0 +1,31 @@
+{
+  "configurations" : [
+    {
+      "id" : "32E136C5-52ED-4554-B491-D83278A9CE79",
+      "name" : "Test Scheme Action",
+      "options" : {
+        "distributor" : "com.apple.TestFlight"
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "performanceAntipatternCheckerEnabled" : true,
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:CVRtracker.xcodeproj",
+      "identifier" : "B80000501234567800000040",
+      "name" : "CVRtracker"
+    }
+  },
+  "testTargets" : [
+    {
+      "enabled" : false,
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:CVRtracker.xcodeproj",
+        "identifier" : "6F1031FD2F12413400A5B666",
+        "name" : "CVRtrackerTests"
+      }
+    }
+  ],
+  "version" : 1
+}

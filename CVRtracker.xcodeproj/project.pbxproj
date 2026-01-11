@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 70;
+	objectVersion = 56;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -30,7 +30,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		6F1031E82F12371800A5B666 /* PBXContainerItemProxy */ = {
+		6F1032022F12413400A5B666 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = B80000701234567800000060 /* Project object */;
 			proxyType = 1;
@@ -41,7 +41,9 @@
 
 /* Begin PBXFileReference section */
 		6F1031D12F11D49800A5B666 /* CVRtracker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CVRtracker.entitlements; sourceTree = "<group>"; };
-		6F1031E22F12371800A5B666 /* CVRtrackerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CVRtrackerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6F1031F52F123BF600A5B666 /* CVRtracker.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = CVRtracker.xctestplan; sourceTree = "<group>"; };
+		6F1031F72F123ED000A5B666 /* Testing.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Testing.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/Testing.framework; sourceTree = DEVELOPER_DIR; };
+		6F1031FE2F12413400A5B666 /* CVRtrackerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CVRtrackerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B80000011234567800000001 /* CVRtrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CVRtrackerApp.swift; sourceTree = "<group>"; };
 		B80000031234567800000002 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B80000051234567800000003 /* BPReading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPReading.swift; sourceTree = "<group>"; };
@@ -65,39 +67,8 @@
 		B80000271234567800000014 /* iCloudSyncManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iCloudSyncManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		6F1031ED2F12376100A5B666 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				CVRtrackerTestsAppLaunchTests.swift,
-				CVRtrackerTestsCVRtrackerSchemaTests.swift,
-				CVRtrackerTestsDateExtensionsTests.swift,
-				CVRtrackerTestsHealthKitManagerTests.swift,
-				CVRtrackerTestsModelTests.swift,
-				CVRtrackerTestsValidationTests.swift,
-			);
-			target = B80000501234567800000040 /* CVRtracker */;
-		};
-		6F1031EE2F12376100A5B666 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				CVRtrackerTestsAppLaunchTests.swift,
-				CVRtrackerTestsCVRtrackerSchemaTests.swift,
-				CVRtrackerTestsDateExtensionsTests.swift,
-				CVRtrackerTestsHealthKitManagerTests.swift,
-				CVRtrackerTestsModelTests.swift,
-				CVRtrackerTestsValidationTests.swift,
-			);
-			target = 6F1031E12F12371800A5B666 /* CVRtrackerTests */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		6F1031E32F12371800A5B666 /* CVRtrackerTests */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (6F1031ED2F12376100A5B666 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 6F1031EE2F12376100A5B666 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = CVRtrackerTests; sourceTree = "<group>"; };
-/* End PBXFileSystemSynchronizedRootGroup section */
-
 /* Begin PBXFrameworksBuildPhase section */
-		6F1031DF2F12371800A5B666 /* Frameworks */ = {
+		6F1031FB2F12413400A5B666 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -114,11 +85,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6F1031F62F123ED000A5B666 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6F1031F72F123ED000A5B666 /* Testing.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		B80000401234567800000030 = {
 			isa = PBXGroup;
 			children = (
+				6F1031F52F123BF600A5B666 /* CVRtracker.xctestplan */,
 				B80000411234567800000031 /* CVRtracker */,
-				6F1031E32F12371800A5B666 /* CVRtrackerTests */,
+				6F1031F62F123ED000A5B666 /* Frameworks */,
 				B80000421234567800000032 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -140,7 +120,7 @@
 			isa = PBXGroup;
 			children = (
 				B80000201234567800000010 /* CVRtracker.app */,
-				6F1031E22F12371800A5B666 /* CVRtrackerTests.xctest */,
+				6F1031FE2F12413400A5B666 /* CVRtrackerTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -187,28 +167,25 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		6F1031E12F12371800A5B666 /* CVRtrackerTests */ = {
+		6F1031FD2F12413400A5B666 /* CVRtrackerTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6F1031EA2F12371800A5B666 /* Build configuration list for PBXNativeTarget "CVRtrackerTests" */;
+			buildConfigurationList = 6F1032042F12413400A5B666 /* Build configuration list for PBXNativeTarget "CVRtrackerTests" */;
 			buildPhases = (
-				6F1031DE2F12371800A5B666 /* Sources */,
-				6F1031DF2F12371800A5B666 /* Frameworks */,
-				6F1031E02F12371800A5B666 /* Resources */,
+				6F1031FA2F12413400A5B666 /* Sources */,
+				6F1031FB2F12413400A5B666 /* Frameworks */,
+				6F1031FC2F12413400A5B666 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				6F1031E92F12371800A5B666 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				6F1031E32F12371800A5B666 /* CVRtrackerTests */,
+				6F1032032F12413400A5B666 /* PBXTargetDependency */,
 			);
 			name = CVRtrackerTests;
 			packageProductDependencies = (
 			);
 			productName = CVRtrackerTests;
-			productReference = 6F1031E22F12371800A5B666 /* CVRtrackerTests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
+			productReference = 6F1031FE2F12413400A5B666 /* CVRtrackerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		B80000501234567800000040 /* CVRtracker */ = {
 			isa = PBXNativeTarget;
@@ -237,7 +214,7 @@
 				LastSwiftUpdateCheck = 2610;
 				LastUpgradeCheck = 2610;
 				TargetAttributes = {
-					6F1031E12F12371800A5B666 = {
+					6F1031FD2F12413400A5B666 = {
 						CreatedOnToolsVersion = 26.1;
 						TestTargetID = B80000501234567800000040;
 					};
@@ -260,13 +237,13 @@
 			projectRoot = "";
 			targets = (
 				B80000501234567800000040 /* CVRtracker */,
-				6F1031E12F12371800A5B666 /* CVRtrackerTests */,
+				6F1031FD2F12413400A5B666 /* CVRtrackerTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		6F1031E02F12371800A5B666 /* Resources */ = {
+		6F1031FC2F12413400A5B666 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -284,7 +261,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		6F1031DE2F12371800A5B666 /* Sources */ = {
+		6F1031FA2F12413400A5B666 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -320,17 +297,18 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		6F1031E92F12371800A5B666 /* PBXTargetDependency */ = {
+		6F1032032F12413400A5B666 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = B80000501234567800000040 /* CVRtracker */;
-			targetProxy = 6F1031E82F12371800A5B666 /* PBXContainerItemProxy */;
+			targetProxy = 6F1032022F12413400A5B666 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		6F1031EB2F12371800A5B666 /* Debug */ = {
+		6F1032052F12413400A5B666 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = X5DWXB4283;
@@ -345,13 +323,14 @@
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = CVRtracker;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CVRtracker.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/CVRtracker";
 			};
 			name = Debug;
 		};
-		6F1031EC2F12371800A5B666 /* Release */ = {
+		6F1032062F12413400A5B666 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = X5DWXB4283;
@@ -366,7 +345,7 @@
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = CVRtracker;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CVRtracker.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/CVRtracker";
 			};
 			name = Release;
 		};
@@ -423,7 +402,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -482,7 +461,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -562,11 +541,11 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		6F1031EA2F12371800A5B666 /* Build configuration list for PBXNativeTarget "CVRtrackerTests" */ = {
+		6F1032042F12413400A5B666 /* Build configuration list for PBXNativeTarget "CVRtrackerTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6F1031EB2F12371800A5B666 /* Debug */,
-				6F1031EC2F12371800A5B666 /* Release */,
+				6F1032052F12413400A5B666 /* Debug */,
+				6F1032062F12413400A5B666 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

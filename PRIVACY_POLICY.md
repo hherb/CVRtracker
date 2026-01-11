@@ -102,8 +102,8 @@ CVRtracker is for informational purposes only and is not intended to replace pro
 If you have any questions about this Privacy Policy or the App's privacy practices, please contact:
 
 **Horst Herb**
-Email: [Contact Email]
-GitHub: https://github.com/[username]/CVRtracker
+Email: shopping@dorrigomedical.com
+GitHub: https://github.com/hherb/CVRtracker
 
 ---
 
