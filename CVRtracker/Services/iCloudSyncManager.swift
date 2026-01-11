@@ -1,6 +1,5 @@
 import Foundation
 import SwiftUI
-import Combine
 
 /// Manages iCloud sync preferences and status for the app.
 ///
@@ -69,7 +68,10 @@ class iCloudSyncManager: ObservableObject {
     ///
     /// This is determined at app launch and doesn't change during the session,
     /// ensuring container configuration remains consistent.
-    static var shouldUseiCloud: Bool {
+    ///
+    /// - Note: This property is `nonisolated` to allow access during app initialization
+    ///   before the main actor is available. It only reads from UserDefaults which is thread-safe.
+    nonisolated static var shouldUseiCloud: Bool {
         UserDefaults.standard.bool(forKey: iCloudSyncEnabledKey)
     }
 
@@ -85,9 +87,11 @@ class iCloudSyncManager: ObservableObject {
         FileManager.default.ubiquityIdentityToken != nil
     }
 
-    /// Enables iCloud sync after confirming with the user.
+    /// Enables iCloud sync if iCloud is available.
     ///
-    /// - Parameter completion: Called with true if sync was enabled, false if cancelled
+    /// Sets `isEnabled` to true and triggers `pendingRestart` to notify
+    /// the user that an app restart is required for changes to take effect.
+    /// If iCloud is not available, sets sync status to error instead.
     func enableSync() {
         guard isAvailable else {
             syncStatus = .error("iCloud not available")

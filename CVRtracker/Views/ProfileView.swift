@@ -4,7 +4,7 @@ import SwiftData
 struct ProfileView: View {
     @Environment(\.modelContext) private var modelContext
     @EnvironmentObject private var healthKitManager: HealthKitManager
-    @StateObject private var iCloudManager = iCloudSyncManager.shared
+    @ObservedObject private var iCloudManager = iCloudSyncManager.shared
     @Query private var profiles: [UserProfile]
     @Query(sort: \BPReading.timestamp, order: .reverse) private var readings: [BPReading]
     @Query(sort: \LipidReading.timestamp, order: .reverse) private var lipidReadings: [LipidReading]
