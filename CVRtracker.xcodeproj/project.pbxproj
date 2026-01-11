@@ -26,6 +26,7 @@
 		B80000201234567800000011 /* HelpContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80000211234567800000011 /* HelpContent.swift */; };
 		B80000221234567800000012 /* TutorialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80000231234567800000012 /* TutorialView.swift */; };
 		B80000241234567800000013 /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80000251234567800000013 /* HealthKitManager.swift */; };
+		B80000261234567800000014 /* iCloudSyncManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80000271234567800000014 /* iCloudSyncManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +62,7 @@
 		B80000211234567800000011 /* HelpContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpContent.swift; sourceTree = "<group>"; };
 		B80000231234567800000012 /* TutorialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialView.swift; sourceTree = "<group>"; };
 		B80000251234567800000013 /* HealthKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitManager.swift; sourceTree = "<group>"; };
+		B80000271234567800000014 /* iCloudSyncManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iCloudSyncManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -177,6 +179,7 @@
 			isa = PBXGroup;
 			children = (
 				B80000251234567800000013 /* HealthKitManager.swift */,
+				B80000271234567800000014 /* iCloudSyncManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -310,6 +313,7 @@
 				B80000201234567800000011 /* HelpContent.swift in Sources */,
 				B80000221234567800000012 /* TutorialView.swift in Sources */,
 				B80000241234567800000013 /* HealthKitManager.swift in Sources */,
+				B80000261234567800000014 /* iCloudSyncManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

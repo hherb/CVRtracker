@@ -4,6 +4,7 @@ import SwiftData
 struct ProfileView: View {
     @Environment(\.modelContext) private var modelContext
     @EnvironmentObject private var healthKitManager: HealthKitManager
+    @ObservedObject private var iCloudManager = iCloudSyncManager.shared
     @Query private var profiles: [UserProfile]
     @Query(sort: \BPReading.timestamp, order: .reverse) private var readings: [BPReading]
     @Query(sort: \LipidReading.timestamp, order: .reverse) private var lipidReadings: [LipidReading]
@@ -16,6 +17,7 @@ struct ProfileView: View {
     @State private var cholesterolUnit: CholesterolUnit = .mgdL
     @State private var triglycerideUnit: TriglycerideUnit = .mgdL
     @State private var healthKitEnabled: Bool = false
+    @State private var iCloudSyncEnabled: Bool = false
 
     @State private var showingRiskResult = false
 
@@ -142,6 +144,56 @@ struct ProfileView: View {
                     }
                 }
 
+                Section {
+                    HStack {
+                        Toggle("iCloud Sync", isOn: $iCloudSyncEnabled)
+                            .onChange(of: iCloudSyncEnabled) { _, newValue in
+                                if newValue {
+                                    iCloudManager.enableSync()
+                                } else {
+                                    iCloudManager.disableSync()
+                                }
+                            }
+                        InfoButton(topic: HelpContent.iCloudSync)
+                    }
+
+                    if !iCloudManager.isAvailable && iCloudSyncEnabled {
+                        HStack {
+                            Image(systemName: "exclamationmark.triangle.fill")
+                                .foregroundColor(.orange)
+                            Text("Sign in to iCloud in Settings")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                        }
+                    }
+
+                    if iCloudManager.pendingRestart {
+                        HStack {
+                            Image(systemName: "arrow.clockwise.circle.fill")
+                                .foregroundColor(.blue)
+                            Text("Restart app to apply changes")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                        }
+                    }
+
+                    if iCloudSyncEnabled && iCloudManager.isAvailable && !iCloudManager.pendingRestart {
+                        HStack {
+                            Text("Status")
+                            Spacer()
+                            iCloudSyncStatusView
+                        }
+                    }
+                } header: {
+                    Text("iCloud")
+                } footer: {
+                    if iCloudSyncEnabled {
+                        Text("Your data syncs automatically across all devices signed into your iCloud account.")
+                    } else {
+                        Text("Enable to sync your data between iPhone and iPad. Your data stays private in your iCloud account.")
+                    }
+                }
+
                 if let lipid = latestLipidReading {
                     Section {
                         HStack {
@@ -229,6 +281,10 @@ struct ProfileView: View {
             triglycerideUnit = existing.triglycerideUnit
             healthKitEnabled = existing.healthKitEnabled
         }
+        // iCloud sync is stored in UserDefaults, not in the profile
+        iCloudSyncEnabled = iCloudManager.isEnabled
+        // Clear pending restart flag since app has restarted
+        iCloudManager.clearPendingRestart()
     }
 
     private func saveProfile() {
@@ -296,6 +352,25 @@ struct ProfileView: View {
                 Text("Up to date")
                     .foregroundColor(.green)
             }
+        case .error(let message):
+            Text(message)
+                .foregroundColor(.red)
+                .font(.caption)
+        }
+    }
+
+    @ViewBuilder
+    private var iCloudSyncStatusView: some View {
+        switch iCloudManager.syncStatus {
+        case .idle:
+            Text("Ready")
+                .foregroundColor(.secondary)
+        case .syncing:
+            ProgressView()
+                .controlSize(.small)
+        case .synced:
+            Text("Synced")
+                .foregroundColor(.green)
         case .error(let message):
             Text(message)
                 .foregroundColor(.red)
