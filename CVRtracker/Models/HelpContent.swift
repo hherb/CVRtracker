@@ -345,6 +345,33 @@ struct HelpContent {
         clinicalRelevance: "Syncing health data between apps and devices provides a more complete picture of your cardiovascular health over time and enables better tracking of trends."
     )
 
+    // MARK: - iCloud Sync
+
+    static let iCloudSync = HelpTopic(
+        title: "iCloud Sync",
+        shortDescription: "Sync your data across iPhone and iPad",
+        detailedDescription: """
+            When enabled, iCloud Sync automatically synchronizes your health data across all your Apple devices signed into the same iCloud account.
+
+            What Gets Synced:
+            • Blood pressure readings
+            • Lipid panel results
+            • Your profile and risk factors
+
+            Privacy Considerations:
+            When iCloud Sync is OFF (default), all your data stays only on this device. This is the most private option.
+
+            When iCloud Sync is ON, your data is encrypted and stored in your personal iCloud account. Only you can access it from your devices.
+
+            Important Notes:
+            • Changing this setting requires restarting the app
+            • You must be signed into iCloud on your device
+            • Ensure you have sufficient iCloud storage
+            • Data syncs automatically when connected to the internet
+            """,
+        clinicalRelevance: "Having consistent access to your health history across devices helps ensure you always have your readings available when discussing your cardiovascular health with healthcare providers."
+    )
+
     // MARK: - Understanding Your Results (Patient Education)
 
     static let interpretingTrends = HelpTopic(
