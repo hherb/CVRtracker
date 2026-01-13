@@ -29,7 +29,17 @@ struct HelpContent {
             High (Stage 1): 130-139 mmHg
             High (Stage 2): 140+ mmHg
             """,
-        clinicalRelevance: "Higher systolic pressure increases strain on artery walls and is a major risk factor for heart disease and stroke."
+        clinicalRelevance: "Higher systolic pressure increases strain on artery walls and is a major risk factor for heart disease and stroke.",
+        references: [
+            Reference(
+                title: "2017 ACC/AHA High Blood Pressure Guideline",
+                url: URL(string: "https://doi.org/10.1161/HYP.0000000000000065")!
+            ),
+            Reference(
+                title: "AHA: Understanding Blood Pressure Readings",
+                url: URL(string: "https://www.heart.org/en/health-topics/high-blood-pressure/understanding-blood-pressure-readings")!
+            )
+        ]
     )
 
     static let diastolicBP = HelpTopic(
@@ -42,7 +52,17 @@ struct HelpContent {
             High (Stage 1): 80-89 mmHg
             High (Stage 2): 90+ mmHg
             """,
-        clinicalRelevance: "While systolic pressure rises with age, elevated diastolic pressure is particularly concerning in younger adults."
+        clinicalRelevance: "While systolic pressure rises with age, elevated diastolic pressure is particularly concerning in younger adults.",
+        references: [
+            Reference(
+                title: "2017 ACC/AHA High Blood Pressure Guideline",
+                url: URL(string: "https://doi.org/10.1161/HYP.0000000000000065")!
+            ),
+            Reference(
+                title: "AHA: Understanding Blood Pressure Readings",
+                url: URL(string: "https://www.heart.org/en/health-topics/high-blood-pressure/understanding-blood-pressure-readings")!
+            )
+        ]
     )
 
     static let pulsePressure = HelpTopic(
@@ -56,7 +76,21 @@ struct HelpContent {
 
             A pulse pressure greater than 60 mmHg may indicate stiff arteries, while very low pulse pressure (<25 mmHg) may suggest poor heart function.
             """,
-        clinicalRelevance: "Wide pulse pressure is associated with arterial stiffness and increased cardiovascular risk, especially in older adults."
+        clinicalRelevance: "Wide pulse pressure is associated with arterial stiffness and increased cardiovascular risk, especially in older adults.",
+        references: [
+            Reference(
+                title: "Framingham Heart Study: Pulse Pressure and CV Risk",
+                url: URL(string: "https://www.ahajournals.org/doi/10.1161/hy1001.092966")!
+            ),
+            Reference(
+                title: "NIH StatPearls: Pulse Pressure Physiology",
+                url: URL(string: "https://www.ncbi.nlm.nih.gov/books/NBK482408/")!
+            ),
+            Reference(
+                title: "Hypertension: Pulse Pressure as CV Predictor",
+                url: URL(string: "https://doi.org/10.1161/01.HYP.36.5.801")!
+            )
+        ]
     )
 
     // MARK: - Fractional Pulse Pressure
@@ -76,7 +110,21 @@ struct HelpContent {
             Mean Arterial Pressure (MAP) is estimated as:
             MAP = Diastolic + (0.412 × Pulse Pressure)
             """,
-        clinicalRelevance: "fPP serves as a non-invasive proxy for arterial stiffness, which is a marker of vascular aging. Stiff arteries require the heart to work harder and increase cardiovascular risk."
+        clinicalRelevance: "fPP serves as a non-invasive proxy for arterial stiffness, which is a marker of vascular aging. Stiff arteries require the heart to work harder and increase cardiovascular risk.",
+        references: [
+            Reference(
+                title: "Hypertension: Fractional Pulse Pressure and Mortality",
+                url: URL(string: "https://doi.org/10.1161/HYPERTENSIONAHA.107.097477")!
+            ),
+            Reference(
+                title: "Journal of Hypertension: Pulse Pressure Ratio",
+                url: URL(string: "https://doi.org/10.1097/HJH.0000000000001842")!
+            ),
+            Reference(
+                title: "European Heart Journal: Arterial Stiffness Assessment",
+                url: URL(string: "https://doi.org/10.1093/eurheartj/ehl254")!
+            )
+        ]
     )
 
     // MARK: - Arterial Stiffness & Vascular Aging
@@ -101,7 +149,21 @@ struct HelpContent {
             • Greater cardiac workload
             • Increased risk of heart disease and stroke
             """,
-        clinicalRelevance: "Arterial stiffness is considered a marker of biological vascular age. Your arteries may be 'older' or 'younger' than your chronological age depending on your cardiovascular health."
+        clinicalRelevance: "Arterial stiffness is considered a marker of biological vascular age. Your arteries may be 'older' or 'younger' than your chronological age depending on your cardiovascular health.",
+        references: [
+            Reference(
+                title: "Circulation Research: Arterial Stiffness and CV Health",
+                url: URL(string: "https://doi.org/10.1161/CIRCRESAHA.121.318061")!
+            ),
+            Reference(
+                title: "JACC: Arterial Stiffness Mechanisms",
+                url: URL(string: "https://doi.org/10.1016/j.jacc.2019.07.012")!
+            ),
+            Reference(
+                title: "European Heart Journal: Expert Consensus on Arterial Stiffness",
+                url: URL(string: "https://doi.org/10.1093/eurheartj/ehl254")!
+            )
+        ]
     )
 
     static let vascularAging = HelpTopic(
@@ -130,7 +192,21 @@ struct HelpContent {
             • Not smoking
             • Maintaining healthy weight
             """,
-        clinicalRelevance: "By tracking your cardiovascular metrics over time, you can monitor your vascular health and potentially slow vascular aging through lifestyle modifications."
+        clinicalRelevance: "By tracking your cardiovascular metrics over time, you can monitor your vascular health and potentially slow vascular aging through lifestyle modifications.",
+        references: [
+            Reference(
+                title: "Circulation: Early Vascular Aging Concept",
+                url: URL(string: "https://doi.org/10.1161/CIRCULATIONAHA.107.749762")!
+            ),
+            Reference(
+                title: "Hypertension: Vascular Aging and CV Risk",
+                url: URL(string: "https://doi.org/10.1161/HYPERTENSIONAHA.118.10084")!
+            ),
+            Reference(
+                title: "JACC: Healthy Vascular Aging",
+                url: URL(string: "https://doi.org/10.1016/j.jacc.2015.09.104")!
+            )
+        ]
     )
 
     // MARK: - Lipid Panel
@@ -147,7 +223,21 @@ struct HelpContent {
 
             While total cholesterol provides an overview, the ratio of different cholesterol types is more important for risk assessment.
             """,
-        clinicalRelevance: "Used in cardiovascular risk calculations, but LDL and HDL levels provide more specific risk information."
+        clinicalRelevance: "Used in cardiovascular risk calculations, but LDL and HDL levels provide more specific risk information.",
+        references: [
+            Reference(
+                title: "2018 ACC/AHA Cholesterol Clinical Practice Guidelines",
+                url: URL(string: "https://doi.org/10.1016/j.jacc.2018.11.003")!
+            ),
+            Reference(
+                title: "NIH: ATP III Cholesterol Guidelines",
+                url: URL(string: "https://www.nhlbi.nih.gov/files/docs/guidelines/atp3xsum.pdf")!
+            ),
+            Reference(
+                title: "AHA: Cholesterol and Atherosclerosis",
+                url: URL(string: "https://www.heart.org/en/health-topics/cholesterol/about-cholesterol")!
+            )
+        ]
     )
 
     static let hdlCholesterol = HelpTopic(
@@ -167,7 +257,21 @@ struct HelpContent {
             • Lose excess weight
             • Eat healthy fats (olive oil, nuts, fish)
             """,
-        clinicalRelevance: "High HDL levels are protective against heart disease. Low HDL is an independent risk factor even when LDL is normal."
+        clinicalRelevance: "High HDL levels are protective against heart disease. Low HDL is an independent risk factor even when LDL is normal.",
+        references: [
+            Reference(
+                title: "2018 ACC/AHA Cholesterol Clinical Practice Guidelines",
+                url: URL(string: "https://doi.org/10.1016/j.jacc.2018.11.003")!
+            ),
+            Reference(
+                title: "NEJM: HDL Cholesterol and Cardiovascular Risk",
+                url: URL(string: "https://doi.org/10.1056/NEJMra1112570")!
+            ),
+            Reference(
+                title: "AHA: HDL (Good) Cholesterol",
+                url: URL(string: "https://www.heart.org/en/health-topics/cholesterol/hdl-good-ldl-bad-cholesterol-and-triglycerides")!
+            )
+        ]
     )
 
     static let ldlCholesterol = HelpTopic(
@@ -186,7 +290,21 @@ struct HelpContent {
             LDL = Total Cholesterol − HDL − (Triglycerides ÷ 5)
             (Valid only when triglycerides < 400 mg/dL)
             """,
-        clinicalRelevance: "LDL is the primary target for cholesterol-lowering therapy. Each 1% reduction in LDL reduces cardiovascular risk by approximately 1%."
+        clinicalRelevance: "LDL is the primary target for cholesterol-lowering therapy. Each 1% reduction in LDL reduces cardiovascular risk by approximately 1%.",
+        references: [
+            Reference(
+                title: "2018 ACC/AHA Cholesterol Clinical Practice Guidelines",
+                url: URL(string: "https://doi.org/10.1016/j.jacc.2018.11.003")!
+            ),
+            Reference(
+                title: "Lancet: LDL Cholesterol Lowering and CV Events",
+                url: URL(string: "https://doi.org/10.1016/S0140-6736(10)61350-5")!
+            ),
+            Reference(
+                title: "NIH: ATP III Cholesterol Guidelines",
+                url: URL(string: "https://www.nhlbi.nih.gov/files/docs/guidelines/atp3xsum.pdf")!
+            )
+        ]
     )
 
     static let triglycerides = HelpTopic(
@@ -207,7 +325,21 @@ struct HelpContent {
             • High-carbohydrate diet
             • Some medications
             """,
-        clinicalRelevance: "Elevated triglycerides contribute to arterial plaque buildup and are associated with metabolic syndrome and increased cardiovascular risk."
+        clinicalRelevance: "Elevated triglycerides contribute to arterial plaque buildup and are associated with metabolic syndrome and increased cardiovascular risk.",
+        references: [
+            Reference(
+                title: "AHA Scientific Statement: Triglycerides and CV Disease",
+                url: URL(string: "https://doi.org/10.1161/CIR.0b013e3182160726")!
+            ),
+            Reference(
+                title: "2018 ACC/AHA Cholesterol Clinical Practice Guidelines",
+                url: URL(string: "https://doi.org/10.1016/j.jacc.2018.11.003")!
+            ),
+            Reference(
+                title: "NIH: ATP III Cholesterol Guidelines",
+                url: URL(string: "https://www.nhlbi.nih.gov/files/docs/guidelines/atp3xsum.pdf")!
+            )
+        ]
     )
 
     static let totalHDLRatio = HelpTopic(
@@ -222,7 +354,17 @@ struct HelpContent {
 
             This ratio accounts for the protective effect of HDL. Someone with high total cholesterol but very high HDL may have lower risk than someone with lower total cholesterol but low HDL.
             """,
-        clinicalRelevance: "Some clinicians prefer this ratio as a quick risk indicator because it captures both the harmful (LDL) and protective (HDL) aspects of cholesterol."
+        clinicalRelevance: "Some clinicians prefer this ratio as a quick risk indicator because it captures both the harmful (LDL) and protective (HDL) aspects of cholesterol.",
+        references: [
+            Reference(
+                title: "Circulation: TC/HDL Ratio and CV Risk",
+                url: URL(string: "https://doi.org/10.1161/CIRCULATIONAHA.107.699579")!
+            ),
+            Reference(
+                title: "AHA: Cholesterol Ratios Explained",
+                url: URL(string: "https://www.heart.org/en/health-topics/cholesterol/about-cholesterol")!
+            )
+        ]
     )
 
     // MARK: - Framingham Risk Score
@@ -248,7 +390,21 @@ struct HelpContent {
             • Intermediate: 10-20%
             • High: Greater than 20%
             """,
-        clinicalRelevance: "Developed from decades of data from the Framingham Heart Study (D'Agostino et al., 2008). Used worldwide to guide preventive treatment decisions."
+        clinicalRelevance: "Developed from decades of data from the Framingham Heart Study (D'Agostino et al., 2008). Used worldwide to guide preventive treatment decisions.",
+        references: [
+            Reference(
+                title: "D'Agostino et al. (2008): General CV Risk Profile",
+                url: URL(string: "https://doi.org/10.1161/CIRCULATIONAHA.107.699579")!
+            ),
+            Reference(
+                title: "Framingham Heart Study Official Website",
+                url: URL(string: "https://www.framinghamheartstudy.org/")!
+            ),
+            Reference(
+                title: "NIH: ATP III Risk Categories",
+                url: URL(string: "https://www.nhlbi.nih.gov/files/docs/guidelines/atp3xsum.pdf")!
+            )
+        ]
     )
 
     static let thirtyYearRisk = HelpTopic(
@@ -267,7 +423,21 @@ struct HelpContent {
             • Intermediate: 12-40%
             • High: Greater than 40%
             """,
-        clinicalRelevance: "Younger adults may have low 10-year risk but high 30-year risk. This extended view helps motivate early lifestyle changes."
+        clinicalRelevance: "Younger adults may have low 10-year risk but high 30-year risk. This extended view helps motivate early lifestyle changes.",
+        references: [
+            Reference(
+                title: "Pencina et al. (2009): 30-Year CV Risk Prediction",
+                url: URL(string: "https://doi.org/10.1161/CIRCULATIONAHA.108.816694")!
+            ),
+            Reference(
+                title: "Framingham Heart Study Official Website",
+                url: URL(string: "https://www.framinghamheartstudy.org/")!
+            ),
+            Reference(
+                title: "Circulation: Long-term CV Risk in Young Adults",
+                url: URL(string: "https://doi.org/10.1161/CIRCULATIONAHA.109.853002")!
+            )
+        ]
     )
 
     // MARK: - Profile Risk Factors
@@ -288,7 +458,21 @@ struct HelpContent {
             1. Your current BP reading may be artificially lower than your natural BP
             2. The need for treatment indicates underlying cardiovascular risk
             """,
-        clinicalRelevance: "Even with well-controlled blood pressure on medication, cardiovascular risk remains higher than someone with naturally normal blood pressure."
+        clinicalRelevance: "Even with well-controlled blood pressure on medication, cardiovascular risk remains higher than someone with naturally normal blood pressure.",
+        references: [
+            Reference(
+                title: "2017 ACC/AHA High Blood Pressure Guideline",
+                url: URL(string: "https://doi.org/10.1161/HYP.0000000000000065")!
+            ),
+            Reference(
+                title: "JAMA: Blood Pressure Treatment Targets",
+                url: URL(string: "https://doi.org/10.1001/jama.2020.11102")!
+            ),
+            Reference(
+                title: "AHA: Types of Blood Pressure Medications",
+                url: URL(string: "https://www.heart.org/en/health-topics/high-blood-pressure/changes-you-can-make-to-manage-high-blood-pressure/types-of-blood-pressure-medications")!
+            )
+        ]
     )
 
     static let smokingStatus = HelpTopic(
@@ -307,7 +491,21 @@ struct HelpContent {
             • After 5-15 years, stroke risk equals non-smoker
             • After 15 years, heart disease risk approaches non-smoker
             """,
-        clinicalRelevance: "Smoking is one of the most modifiable risk factors. Quitting at any age significantly reduces cardiovascular risk."
+        clinicalRelevance: "Smoking is one of the most modifiable risk factors. Quitting at any age significantly reduces cardiovascular risk.",
+        references: [
+            Reference(
+                title: "CDC: Smoking and Heart Disease",
+                url: URL(string: "https://www.cdc.gov/tobacco/sgr/50th-anniversary/pdfs/fs_smoking_CVD_508.pdf")!
+            ),
+            Reference(
+                title: "AHA: Smoking and Cardiovascular Disease",
+                url: URL(string: "https://www.heart.org/en/healthy-living/healthy-lifestyle/quit-smoking-tobacco/how-smoking-and-nicotine-damage-your-body")!
+            ),
+            Reference(
+                title: "JAMA: Smoking Cessation and CV Risk Reduction",
+                url: URL(string: "https://doi.org/10.1001/jama.2019.3286")!
+            )
+        ]
     )
 
     static let diabetesStatus = HelpTopic(
@@ -323,7 +521,21 @@ struct HelpContent {
 
             Cardiovascular disease is the leading cause of death in people with diabetes.
             """,
-        clinicalRelevance: "Diabetes is considered a \"coronary heart disease equivalent\" - diabetics without prior heart disease have similar risk to non-diabetics who have had a heart attack."
+        clinicalRelevance: "Diabetes is considered a \"coronary heart disease equivalent\" - diabetics without prior heart disease have similar risk to non-diabetics who have had a heart attack.",
+        references: [
+            Reference(
+                title: "AHA Scientific Statement: Diabetes and CV Disease",
+                url: URL(string: "https://doi.org/10.1161/CIR.0000000000000678")!
+            ),
+            Reference(
+                title: "ADA: Cardiovascular Disease and Diabetes",
+                url: URL(string: "https://diabetes.org/about-diabetes/complications/heart-disease")!
+            ),
+            Reference(
+                title: "Lancet: Diabetes as CV Risk Equivalent",
+                url: URL(string: "https://doi.org/10.1016/S0140-6736(98)03131-5")!
+            )
+        ]
     )
 
     // MARK: - Apple Health Integration
