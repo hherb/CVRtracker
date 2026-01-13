@@ -80,6 +80,11 @@ struct HistoryView: View {
                         .tint(.blue)
                     }
             }
+
+            // Medical Disclaimer section
+            Section {
+                CompactMedicalDisclaimer()
+            }
         }
         .listStyle(.insetGrouped)
     }

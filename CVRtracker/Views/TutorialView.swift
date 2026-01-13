@@ -4,6 +4,11 @@ struct TutorialView: View {
     var body: some View {
         NavigationStack {
             List {
+                // Medical Disclaimer Section
+                Section {
+                    MedicalDisclaimerCard()
+                }
+
                 ForEach(HelpContent.tutorialSections) { section in
                     Section {
                         ForEach(section.topics) { topic in
@@ -167,6 +172,71 @@ struct SectionHeaderWithInfo: View {
         HStack(spacing: 6) {
             Text(text)
             InfoButton(topic: topic)
+        }
+    }
+}
+
+/// A prominent medical disclaimer card with link to sources
+struct MedicalDisclaimerCard: View {
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                Image(systemName: "info.circle.fill")
+                    .foregroundColor(.blue)
+                Text("Medical Information")
+                    .font(.headline)
+            }
+
+            Text("This app provides health information based on published clinical guidelines and peer-reviewed research. Each topic includes citations to source materials.")
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+
+            Divider()
+
+            Text("This information is for educational purposes only and is not intended to replace professional medical advice, diagnosis, or treatment. Always consult your healthcare provider.")
+                .font(.caption)
+                .foregroundColor(.secondary)
+                .italic()
+        }
+        .padding(.vertical, 8)
+    }
+}
+
+/// A compact medical disclaimer for inline use in other views
+struct CompactMedicalDisclaimer: View {
+    @State private var showingLearnMore = false
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack(spacing: 8) {
+                Image(systemName: "cross.circle")
+                    .foregroundColor(.blue)
+                    .font(.caption)
+                Text("For educational purposes only. Not medical advice.")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                Spacer()
+                Button("Sources") {
+                    showingLearnMore = true
+                }
+                .font(.caption)
+                .foregroundColor(.blue)
+            }
+        }
+        .padding(10)
+        .background(Color(.systemGray6))
+        .cornerRadius(8)
+        .sheet(isPresented: $showingLearnMore) {
+            NavigationStack {
+                TutorialView()
+                    .toolbar {
+                        ToolbarItem(placement: .confirmationAction) {
+                            Button("Done") {
+                                showingLearnMore = false
+                            }
+                        }
+                    }
+            }
         }
     }
 }

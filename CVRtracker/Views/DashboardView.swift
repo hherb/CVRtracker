@@ -126,6 +126,9 @@ struct DashboardView: View {
                     if let reading = latestReading {
                         latestReadingCard(reading: reading)
                     }
+
+                    // Medical Disclaimer with link to sources
+                    CompactMedicalDisclaimer()
                 }
                 .padding()
             }

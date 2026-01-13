@@ -105,6 +105,11 @@ struct LipidHistoryView: View {
                     .tint(.blue)
                 }
             }
+
+            // Medical Disclaimer section
+            Section {
+                CompactMedicalDisclaimer()
+            }
         }
         .listStyle(.insetGrouped)
     }
