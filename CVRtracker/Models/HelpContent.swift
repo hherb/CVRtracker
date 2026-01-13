@@ -113,15 +113,15 @@ struct HelpContent {
         clinicalRelevance: "fPP serves as a non-invasive proxy for arterial stiffness, which is a marker of vascular aging. Stiff arteries require the heart to work harder and increase cardiovascular risk.",
         references: [
             Reference(
-                title: "Hypertension: Fractional Pulse Pressure and Mortality",
-                url: URL(string: "https://doi.org/10.1161/HYPERTENSIONAHA.107.097477")!
+                title: "Hypertension: Pulse Pressure and CV Mortality",
+                url: URL(string: "https://doi.org/10.1161/01.HYP.32.3.560")!
             ),
             Reference(
-                title: "Journal of Hypertension: Pulse Pressure Ratio",
-                url: URL(string: "https://doi.org/10.1097/HJH.0000000000001842")!
+                title: "Hypertension: Central Pressure and Pulse Pressure Ratio",
+                url: URL(string: "https://doi.org/10.1161/HYPERTENSIONAHA.107.105445")!
             ),
             Reference(
-                title: "European Heart Journal: Arterial Stiffness Assessment",
+                title: "European Heart Journal: Expert Consensus on Arterial Stiffness",
                 url: URL(string: "https://doi.org/10.1093/eurheartj/ehl254")!
             )
         ]
@@ -152,11 +152,11 @@ struct HelpContent {
         clinicalRelevance: "Arterial stiffness is considered a marker of biological vascular age. Your arteries may be 'older' or 'younger' than your chronological age depending on your cardiovascular health.",
         references: [
             Reference(
-                title: "Circulation Research: Arterial Stiffness and CV Health",
+                title: "Circulation Research: Arterial Stiffness and CV Risk in Hypertension",
                 url: URL(string: "https://doi.org/10.1161/CIRCRESAHA.121.318061")!
             ),
             Reference(
-                title: "JACC: Arterial Stiffness Mechanisms",
+                title: "JACC: Large-Artery Stiffness in Health and Disease",
                 url: URL(string: "https://doi.org/10.1016/j.jacc.2019.07.012")!
             ),
             Reference(
@@ -195,16 +195,16 @@ struct HelpContent {
         clinicalRelevance: "By tracking your cardiovascular metrics over time, you can monitor your vascular health and potentially slow vascular aging through lifestyle modifications.",
         references: [
             Reference(
-                title: "Circulation: Early Vascular Aging Concept",
-                url: URL(string: "https://doi.org/10.1161/CIRCULATIONAHA.107.749762")!
+                title: "Vascular Health and Risk Management: Early Vascular Aging",
+                url: URL(string: "https://doi.org/10.2147/vhrm.s1094")!
             ),
             Reference(
-                title: "Hypertension: Vascular Aging and CV Risk",
-                url: URL(string: "https://doi.org/10.1161/HYPERTENSIONAHA.118.10084")!
+                title: "Hypertension: Strategies for Healthy Vascular Aging",
+                url: URL(string: "https://doi.org/10.1161/HYPERTENSIONAHA.117.10439")!
             ),
             Reference(
-                title: "JACC: Healthy Vascular Aging",
-                url: URL(string: "https://doi.org/10.1016/j.jacc.2015.09.104")!
+                title: "Circulation Research: Mechanisms of Vascular Aging",
+                url: URL(string: "https://doi.org/10.1161/CIRCRESAHA.118.311378")!
             )
         ]
     )
@@ -264,8 +264,8 @@ struct HelpContent {
                 url: URL(string: "https://doi.org/10.1016/j.jacc.2018.11.003")!
             ),
             Reference(
-                title: "NEJM: HDL Cholesterol and Cardiovascular Risk",
-                url: URL(string: "https://doi.org/10.1056/NEJMra1112570")!
+                title: "NEJM: HDL Cholesterol Efflux and CV Events",
+                url: URL(string: "https://doi.org/10.1056/NEJMoa1409065")!
             ),
             Reference(
                 title: "AHA: HDL (Good) Cholesterol",
@@ -357,7 +357,7 @@ struct HelpContent {
         clinicalRelevance: "Some clinicians prefer this ratio as a quick risk indicator because it captures both the harmful (LDL) and protective (HDL) aspects of cholesterol.",
         references: [
             Reference(
-                title: "Circulation: TC/HDL Ratio and CV Risk",
+                title: "Circulation: General CV Risk Profile (Framingham)",
                 url: URL(string: "https://doi.org/10.1161/CIRCULATIONAHA.107.699579")!
             ),
             Reference(
@@ -434,8 +434,8 @@ struct HelpContent {
                 url: URL(string: "https://www.framinghamheartstudy.org/")!
             ),
             Reference(
-                title: "Circulation: Long-term CV Risk in Young Adults",
-                url: URL(string: "https://doi.org/10.1161/CIRCULATIONAHA.109.853002")!
+                title: "PMC: 30-Year CV Risk Prediction Full Text",
+                url: URL(string: "https://pmc.ncbi.nlm.nih.gov/articles/PMC2748236/")!
             )
         ]
     )
@@ -465,8 +465,8 @@ struct HelpContent {
                 url: URL(string: "https://doi.org/10.1161/HYP.0000000000000065")!
             ),
             Reference(
-                title: "JAMA: Blood Pressure Treatment Targets",
-                url: URL(string: "https://doi.org/10.1001/jama.2020.11102")!
+                title: "NEJM: SPRINT Trial - BP Treatment Targets",
+                url: URL(string: "https://doi.org/10.1056/NEJMoa1511939")!
             ),
             Reference(
                 title: "AHA: Types of Blood Pressure Medications",
@@ -502,8 +502,8 @@ struct HelpContent {
                 url: URL(string: "https://www.heart.org/en/healthy-living/healthy-lifestyle/quit-smoking-tobacco/how-smoking-and-nicotine-damage-your-body")!
             ),
             Reference(
-                title: "JAMA: Smoking Cessation and CV Risk Reduction",
-                url: URL(string: "https://doi.org/10.1001/jama.2019.3286")!
+                title: "JAMA: Smoking Cessation and CV Risk",
+                url: URL(string: "https://doi.org/10.1001/jama.2019.10298")!
             )
         ]
     )
@@ -524,16 +524,16 @@ struct HelpContent {
         clinicalRelevance: "Diabetes is considered a \"coronary heart disease equivalent\" - diabetics without prior heart disease have similar risk to non-diabetics who have had a heart attack.",
         references: [
             Reference(
-                title: "AHA Scientific Statement: Diabetes and CV Disease",
-                url: URL(string: "https://doi.org/10.1161/CIR.0000000000000678")!
+                title: "Circulation: Diabetes Mellitus as a Major Risk Factor for CV Disease",
+                url: URL(string: "https://doi.org/10.1161/01.CIR.100.10.1132")!
             ),
             Reference(
                 title: "ADA: Cardiovascular Disease and Diabetes",
                 url: URL(string: "https://diabetes.org/about-diabetes/complications/heart-disease")!
             ),
             Reference(
-                title: "Lancet: Diabetes as CV Risk Equivalent",
-                url: URL(string: "https://doi.org/10.1016/S0140-6736(98)03131-5")!
+                title: "Diabetes Care: Type 2 Diabetes as CHD Equivalent",
+                url: URL(string: "https://doi.org/10.2337/diacare.28.12.2901")!
             )
         ]
     )
@@ -679,28 +679,28 @@ struct HelpContent {
         clinicalRelevance: "Understanding how your blood pressure trends change over time—not just single readings—provides crucial insight into your vascular health trajectory. Improving trends suggest your lifestyle changes or treatments are working; worsening trends signal a need for intervention.",
         references: [
             Reference(
-                title: "Circulation Research: Arterial Stiffness and CV Health",
+                title: "Circulation Research: Arterial Stiffness and CV Risk in Hypertension",
                 url: URL(string: "https://doi.org/10.1161/CIRCRESAHA.121.318061")!
             ),
             Reference(
-                title: "JACC: Arterial Stiffness Mechanisms",
+                title: "JACC: Large-Artery Stiffness in Health and Disease",
                 url: URL(string: "https://doi.org/10.1016/j.jacc.2019.07.012")!
             ),
             Reference(
-                title: "Hypertension: Pulse Pressure as Stiffness Indicator",
-                url: URL(string: "https://doi.org/10.1161/HYPERTENSIONAHA.118.12289")!
+                title: "Hypertension: Pulse Pressure and CV Mortality",
+                url: URL(string: "https://doi.org/10.1161/01.HYP.32.3.560")!
             ),
             Reference(
-                title: "Lancet: BP and Cardiovascular Disease Risk",
-                url: URL(string: "https://doi.org/10.1016/S0140-6736(14)60685-1")!
+                title: "Lancet: Blood Pressure Lowering and CV Risk Meta-Analysis",
+                url: URL(string: "https://doi.org/10.1016/S0140-6736(21)00590-0")!
             ),
             Reference(
-                title: "JAMA: Blood Pressure Thresholds and Mortality",
-                url: URL(string: "https://doi.org/10.1001/jama.2019.9811")!
+                title: "NEJM: SPRINT Trial - Blood Pressure Targets",
+                url: URL(string: "https://doi.org/10.1056/NEJMoa1511939")!
             ),
             Reference(
-                title: "BMJ: Antihypertensive Treatment Effects",
-                url: URL(string: "https://doi.org/10.1136/bmj.n189")!
+                title: "European Heart Journal: Expert Consensus on Arterial Stiffness",
+                url: URL(string: "https://doi.org/10.1093/eurheartj/ehl254")!
             )
         ]
     )

@@ -27,6 +27,7 @@
 		B80000221234567800000012 /* TutorialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80000231234567800000012 /* TutorialView.swift */; };
 		B80000241234567800000013 /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80000251234567800000013 /* HealthKitManager.swift */; };
 		B80000261234567800000014 /* iCloudSyncManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80000271234567800000014 /* iCloudSyncManager.swift */; };
+		B80000281234567800000015 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80000291234567800000015 /* OnboardingView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +66,7 @@
 		B80000231234567800000012 /* TutorialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialView.swift; sourceTree = "<group>"; };
 		B80000251234567800000013 /* HealthKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitManager.swift; sourceTree = "<group>"; };
 		B80000271234567800000014 /* iCloudSyncManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iCloudSyncManager.swift; sourceTree = "<group>"; };
+		B80000291234567800000015 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,6 +153,7 @@
 				B800001B123456780000000E /* LipidEntryView.swift */,
 				B800001D123456780000000F /* LipidHistoryView.swift */,
 				B80000231234567800000012 /* TutorialView.swift */,
+				B80000291234567800000015 /* OnboardingView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -291,6 +294,7 @@
 				B80000221234567800000012 /* TutorialView.swift in Sources */,
 				B80000241234567800000013 /* HealthKitManager.swift in Sources */,
 				B80000261234567800000014 /* iCloudSyncManager.swift in Sources */,
+				B80000281234567800000015 /* OnboardingView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
