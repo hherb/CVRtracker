@@ -1,7 +1,17 @@
 import SwiftUI
 
 struct ContentView: View {
+    @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
+
     var body: some View {
+        if !hasCompletedOnboarding {
+            OnboardingView(hasCompletedOnboarding: $hasCompletedOnboarding)
+        } else {
+            mainTabView
+        }
+    }
+
+    private var mainTabView: some View {
         TabView {
             DashboardView()
                 .tabItem {

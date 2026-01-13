@@ -8,6 +8,8 @@ struct DashboardView: View {
     @Query(sort: \BPReading.timestamp, order: .reverse) private var readings: [BPReading]
     @Query(sort: \LipidReading.timestamp, order: .reverse) private var lipidReadings: [LipidReading]
     @Query private var profiles: [UserProfile]
+    @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = true
+    @AppStorage("hasDismissedGettingStarted") private var hasDismissedGettingStarted = false
 
     private var profile: UserProfile? {
         profiles.first
@@ -93,10 +95,22 @@ struct DashboardView: View {
                latestReading != nil
     }
 
+    /// Show Getting Started card for new users who haven't completed initial setup
+    private var shouldShowGettingStarted: Bool {
+        guard !hasDismissedGettingStarted else { return false }
+        // Show if no readings or no profile setup
+        return readings.isEmpty || profiles.isEmpty
+    }
+
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 20) {
+                    // Getting Started Card for new users
+                    if shouldShowGettingStarted {
+                        gettingStartedCard
+                    }
+
                     // Current fPP Card
                     currentFPPCard
 
@@ -492,6 +506,67 @@ struct DashboardView: View {
         .shadow(color: .black.opacity(0.05), radius: 10)
     }
 
+    private var gettingStartedCard: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            HStack {
+                Image(systemName: "sparkles")
+                    .foregroundColor(.red)
+                    .font(.title2)
+                Text("Getting Started")
+                    .font(.headline)
+                Spacer()
+                Button {
+                    withAnimation {
+                        hasDismissedGettingStarted = true
+                    }
+                } label: {
+                    Image(systemName: "xmark.circle.fill")
+                        .foregroundColor(.secondary)
+                }
+            }
+
+            VStack(alignment: .leading, spacing: 12) {
+                GettingStartedStep(
+                    number: 1,
+                    title: "Add your first BP reading",
+                    description: "Go to the Add BP tab and enter your blood pressure",
+                    isComplete: !readings.isEmpty
+                )
+
+                GettingStartedStep(
+                    number: 2,
+                    title: "Complete your profile",
+                    description: "Add age, sex, and health factors in Profile",
+                    isComplete: profiles.first?.age ?? 0 > 0
+                )
+
+                GettingStartedStep(
+                    number: 3,
+                    title: "Add lipid readings",
+                    description: "Enter cholesterol values for risk calculation",
+                    isComplete: !lipidReadings.isEmpty
+                )
+
+                GettingStartedStep(
+                    number: 4,
+                    title: "Explore the Learn tab",
+                    description: "Understand what your readings mean",
+                    isComplete: false
+                )
+            }
+
+            Divider()
+
+            Text("Tip: Tap any info button throughout the app for detailed explanations.")
+                .font(.caption)
+                .foregroundColor(.secondary)
+        }
+        .padding()
+        .background(Color(.systemBackground))
+        .cornerRadius(16)
+        .shadow(color: .black.opacity(0.05), radius: 10)
+    }
+
     private func latestReadingCard(reading: BPReading) -> some View {
         VStack(spacing: 8) {
             Text("Latest Reading")
@@ -583,6 +658,49 @@ struct DashboardView: View {
         case .low: return .green
         case .intermediate: return .orange
         case .high: return .red
+        }
+    }
+}
+
+/// A step in the Getting Started checklist
+struct GettingStartedStep: View {
+    let number: Int
+    let title: String
+    let description: String
+    let isComplete: Bool
+
+    var body: some View {
+        HStack(alignment: .top, spacing: 12) {
+            // Completion indicator
+            ZStack {
+                Circle()
+                    .fill(isComplete ? Color.green : Color.gray.opacity(0.2))
+                    .frame(width: 24, height: 24)
+
+                if isComplete {
+                    Image(systemName: "checkmark")
+                        .font(.caption.bold())
+                        .foregroundColor(.white)
+                } else {
+                    Text("\(number)")
+                        .font(.caption.bold())
+                        .foregroundColor(.secondary)
+                }
+            }
+
+            VStack(alignment: .leading, spacing: 2) {
+                Text(title)
+                    .font(.subheadline)
+                    .fontWeight(.medium)
+                    .foregroundColor(isComplete ? .secondary : .primary)
+                    .strikethrough(isComplete)
+
+                Text(description)
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+            }
+
+            Spacer()
         }
     }
 }
