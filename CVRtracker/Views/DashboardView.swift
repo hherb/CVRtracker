@@ -8,7 +8,6 @@ struct DashboardView: View {
     @Query(sort: \BPReading.timestamp, order: .reverse) private var readings: [BPReading]
     @Query(sort: \LipidReading.timestamp, order: .reverse) private var lipidReadings: [LipidReading]
     @Query private var profiles: [UserProfile]
-    @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = true
     @AppStorage("hasDismissedGettingStarted") private var hasDismissedGettingStarted = false
 
     private var profile: UserProfile? {
