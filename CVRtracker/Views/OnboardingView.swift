@@ -12,28 +12,36 @@ struct OnboardingView: View {
             iconColor: .red,
             title: "Track Your Heart Health",
             description: "Monitor your blood pressure readings and see how your cardiovascular health changes over time.",
-            detail: "Enter your systolic and diastolic values to automatically calculate pulse pressure and arterial stiffness indicators."
+            detail: "Enter your systolic and diastolic values to automatically calculate pulse pressure and arterial stiffness indicators.",
+            reference: "2017 ACC/AHA Blood Pressure Guideline",
+            referenceURL: URL(string: "https://doi.org/10.1161/HYP.0000000000000065")
         ),
         OnboardingPage(
             icon: "waveform.path.ecg",
             iconColor: .blue,
             title: "Understand Arterial Stiffness",
             description: "Fractional Pulse Pressure (fPP) is a non-invasive measure that indicates how flexible your arteries are.",
-            detail: "Stiffer arteries require your heart to work harder and may indicate increased cardiovascular risk. Track your fPP over time to see trends."
+            detail: "Stiffer arteries require your heart to work harder and may indicate increased cardiovascular risk. Track your fPP over time to see trends.",
+            reference: "European Heart Journal: Expert Consensus on Arterial Stiffness",
+            referenceURL: URL(string: "https://doi.org/10.1093/eurheartj/ehl254")
         ),
         OnboardingPage(
             icon: "chart.line.uptrend.xyaxis",
             iconColor: .green,
             title: "Visualize Your Trends",
             description: "See how your measurements change over time with interactive charts and trend analysis.",
-            detail: "Understanding whether your pulse pressure is increasing or decreasing helps you and your doctor make informed decisions."
+            detail: "Understanding whether your pulse pressure is increasing or decreasing helps you and your doctor make informed decisions.",
+            reference: "Hypertension: Pulse Pressure and CV Mortality",
+            referenceURL: URL(string: "https://doi.org/10.1161/01.HYP.32.3.560")
         ),
         OnboardingPage(
             icon: "chart.bar.fill",
             iconColor: .orange,
             title: "Know Your Risk",
             description: "Calculate your 10-year and 30-year cardiovascular risk using the validated Framingham Risk Score.",
-            detail: "Based on decades of research from the Framingham Heart Study, this tool estimates your probability of a cardiovascular event."
+            detail: "Based on decades of research from the Framingham Heart Study, this tool estimates your probability of a cardiovascular event.",
+            reference: "D'Agostino et al. (2008): General CV Risk Profile",
+            referenceURL: URL(string: "https://doi.org/10.1161/CIRCULATIONAHA.107.699579")
         ),
         OnboardingPage(
             icon: "cross.case.fill",
@@ -116,6 +124,19 @@ private struct OnboardingPage {
     let title: String
     let description: String
     let detail: String
+    let reference: String?
+    let referenceURL: URL?
+
+    init(icon: String, iconColor: Color, title: String, description: String, detail: String,
+         reference: String? = nil, referenceURL: URL? = nil) {
+        self.icon = icon
+        self.iconColor = iconColor
+        self.title = title
+        self.description = description
+        self.detail = detail
+        self.reference = reference
+        self.referenceURL = referenceURL
+    }
 }
 
 /// View for a single onboarding page
@@ -157,6 +178,24 @@ private struct OnboardingPageView: View {
                     .foregroundColor(.secondary)
             }
             .padding(.horizontal, 30)
+
+            // Reference link (if available)
+            if let reference = page.reference, let url = page.referenceURL {
+                Link(destination: url) {
+                    HStack(spacing: 4) {
+                        Image(systemName: "book.closed")
+                            .font(.caption2)
+                        Text(reference)
+                            .font(.caption2)
+                    }
+                    .foregroundColor(.blue)
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 6)
+                    .background(Color.blue.opacity(0.1))
+                    .cornerRadius(12)
+                }
+                .padding(.top, 8)
+            }
 
             Spacer()
             Spacer()
