@@ -42,14 +42,14 @@ struct ProfileView: View {
             Form {
                 Section {
                     Stepper("Age: \(age) years", value: $age, in: 30...79)
-                        .onChange(of: age) { saveProfile() }
+                        .onChange(of: age) { _, _ in saveProfile() }
 
                     Picker("Sex", selection: $sex) {
                         ForEach(Sex.allCases, id: \.self) { sex in
                             Text(sex.rawValue).tag(sex)
                         }
                     }
-                    .onChange(of: sex) { saveProfile() }
+                    .onChange(of: sex) { _, _ in saveProfile() }
                 } header: {
                     Text("Demographics")
                 } footer: {
@@ -59,19 +59,19 @@ struct ProfileView: View {
                 Section {
                     HStack {
                         Toggle("On blood pressure medication", isOn: $onHypertensionTreatment)
-                            .onChange(of: onHypertensionTreatment) { saveProfile() }
+                            .onChange(of: onHypertensionTreatment) { _, _ in saveProfile() }
                         InfoButton(topic: HelpContent.hypertensionTreatment)
                     }
 
                     HStack {
                         Toggle("Current smoker", isOn: $isSmoker)
-                            .onChange(of: isSmoker) { saveProfile() }
+                            .onChange(of: isSmoker) { _, _ in saveProfile() }
                         InfoButton(topic: HelpContent.smokingStatus)
                     }
 
                     HStack {
                         Toggle("Diabetes", isOn: $hasDiabetes)
-                            .onChange(of: hasDiabetes) { saveProfile() }
+                            .onChange(of: hasDiabetes) { _, _ in saveProfile() }
                         InfoButton(topic: HelpContent.diabetesStatus)
                     }
                 } header: {
@@ -84,14 +84,14 @@ struct ProfileView: View {
                             Text(unit.rawValue).tag(unit)
                         }
                     }
-                    .onChange(of: cholesterolUnit) { saveProfile() }
+                    .onChange(of: cholesterolUnit) { _, _ in saveProfile() }
 
                     Picker("Triglyceride Units", selection: $triglycerideUnit) {
                         ForEach(TriglycerideUnit.allCases, id: \.self) { unit in
                             Text(unit.rawValue).tag(unit)
                         }
                     }
-                    .onChange(of: triglycerideUnit) { saveProfile() }
+                    .onChange(of: triglycerideUnit) { _, _ in saveProfile() }
                 } header: {
                     Text("Unit Preferences")
                 } footer: {

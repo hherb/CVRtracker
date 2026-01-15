@@ -20,10 +20,10 @@ import SwiftUI
 @MainActor
 class iCloudSyncManager: ObservableObject {
     /// UserDefaults key for the iCloud sync enabled preference
-    private static let iCloudSyncEnabledKey = "iCloudSyncEnabled"
+    private nonisolated(unsafe) static let iCloudSyncEnabledKey = "iCloudSyncEnabled"
 
     /// UserDefaults key for tracking if user has been shown the restart prompt
-    private static let pendingRestartKey = "iCloudSyncPendingRestart"
+    private nonisolated(unsafe) static let pendingRestartKey = "iCloudSyncPendingRestart"
 
     /// Shared instance for accessing iCloud sync settings
     static let shared = iCloudSyncManager()

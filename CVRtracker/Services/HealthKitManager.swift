@@ -200,26 +200,25 @@ final class HealthKitManager: ObservableObject {
             ascending: false
         )
 
+        // Capture these properties before entering the nonisolated closure
+        let systolicType = bloodPressureSystolicType
+        let diastolicType = bloodPressureDiastolicType
+
         return try await withCheckedThrowingContinuation { continuation in
             let query = HKSampleQuery(
                 sampleType: bloodPressureCorrelationType,
                 predicate: predicate,
                 limit: HKObjectQueryNoLimit,
                 sortDescriptors: [sortDescriptor]
-            ) { [weak self] _, samples, error in
-                guard let self = self else {
-                    continuation.resume(returning: [])
-                    return
-                }
-
+            ) { _, samples, error in
                 if let error = error {
                     continuation.resume(throwing: HealthKitError.fetchFailed(error))
                     return
                 }
 
                 let readings = (samples as? [HKCorrelation])?.compactMap { correlation -> HealthKitBPReading? in
-                    guard let systolicSample = correlation.objects(for: self.bloodPressureSystolicType).first as? HKQuantitySample,
-                          let diastolicSample = correlation.objects(for: self.bloodPressureDiastolicType).first as? HKQuantitySample else {
+                    guard let systolicSample = correlation.objects(for: systolicType).first as? HKQuantitySample,
+                          let diastolicSample = correlation.objects(for: diastolicType).first as? HKQuantitySample else {
                         return nil
                     }
 
