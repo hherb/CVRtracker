@@ -3,6 +3,7 @@ import SwiftData
 import Charts
 
 struct DashboardView: View {
+    @Binding var selectedTab: AppTab
     @Environment(\.modelContext) private var modelContext
     @EnvironmentObject private var healthKitManager: HealthKitManager
     @Query(sort: \BPReading.timestamp, order: .reverse) private var readings: [BPReading]
@@ -472,24 +473,30 @@ struct DashboardView: View {
     }
 
     private var setupPromptCard: some View {
-        VStack(spacing: 12) {
-            Image(systemName: "person.crop.circle.badge.questionmark")
-                .font(.largeTitle)
-                .foregroundColor(.blue)
+        Button {
+            selectedTab = .profile
+        } label: {
+            VStack(spacing: 12) {
+                Image(systemName: "person.crop.circle.badge.questionmark")
+                    .font(.largeTitle)
+                    .foregroundColor(.blue)
 
-            Text("Complete Your Profile")
-                .font(.headline)
+                Text("Complete Your Profile")
+                    .font(.headline)
+                    .foregroundColor(.primary)
 
-            Text("Add your health information in the Profile tab and lipid readings to see your cardiovascular risk scores.")
-                .font(.caption)
-                .foregroundColor(.secondary)
-                .multilineTextAlignment(.center)
+                Text("Add your health information in the Profile tab and lipid readings to see your cardiovascular risk scores.")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                    .multilineTextAlignment(.center)
+            }
+            .padding()
+            .frame(maxWidth: .infinity)
+            .background(Color(.systemBackground))
+            .cornerRadius(16)
+            .shadow(color: .black.opacity(0.05), radius: 10)
         }
-        .padding()
-        .frame(maxWidth: .infinity)
-        .background(Color(.systemBackground))
-        .cornerRadius(16)
-        .shadow(color: .black.opacity(0.05), radius: 10)
+        .buttonStyle(.plain)
     }
 
     private func latestReadingCard(reading: BPReading) -> some View {
@@ -588,7 +595,7 @@ struct DashboardView: View {
 }
 
 #Preview {
-    DashboardView()
+    DashboardView(selectedTab: .constant(.dashboard))
         .environmentObject(HealthKitManager())
         .modelContainer(for: [BPReading.self, UserProfile.self, LipidReading.self], inMemory: true)
 }
